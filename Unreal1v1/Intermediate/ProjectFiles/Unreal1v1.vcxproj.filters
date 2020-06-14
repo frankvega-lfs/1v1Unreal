@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\Unreal1v1.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{850B96B6-8DB9-432E-AB69-538AF388EF2F}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\Unreal1v1.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\Unreal1v1Editor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <Filter Include="Config">
+      <UniqueIdentifier>{040781B0-446A-4C0D-96EC-83F07409BEC2}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEditorPerProjectUserSettings.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\Unreal1v1">
+      <UniqueIdentifier>{2E223F21-5887-4E6C-8218-6F7CE87B5AA5}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\Unreal1v1\Unreal1v1.Build.cs">
+      <Filter>Source\Unreal1v1</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\Unreal1v1\Unreal1v1.cpp">
+      <Filter>Source\Unreal1v1</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Unreal1v1\Unreal1v1.h">
+      <Filter>Source\Unreal1v1</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Unreal1v1\Unreal1v1Character.cpp">
+      <Filter>Source\Unreal1v1</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Unreal1v1\Unreal1v1Character.h">
+      <Filter>Source\Unreal1v1</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Unreal1v1\Unreal1v1GameMode.cpp">
+      <Filter>Source\Unreal1v1</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Unreal1v1\Unreal1v1GameMode.h">
+      <Filter>Source\Unreal1v1</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Unreal1v1\Unreal1v1HUD.cpp">
+      <Filter>Source\Unreal1v1</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Unreal1v1\Unreal1v1HUD.h">
+      <Filter>Source\Unreal1v1</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Unreal1v1\Unreal1v1Projectile.cpp">
+      <Filter>Source\Unreal1v1</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Unreal1v1\Unreal1v1Projectile.h">
+      <Filter>Source\Unreal1v1</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

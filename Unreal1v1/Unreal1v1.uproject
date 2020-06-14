@@ -1,0 +1,13 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "4.24",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "Unreal1v1",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}

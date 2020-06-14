@@ -1,0 +1,2 @@
+C:\Users\Mariano Martinez\Desktop\1v1Unreal\Unreal1v1\Intermediate\Build\Win64\UE4Editor\Development\Unreal1v1\Definitions.Unreal1v1.h
+C:\Users\Mariano Martinez\Desktop\1v1Unreal\Unreal1v1\Source\Unreal1v1\Unreal1v1.h

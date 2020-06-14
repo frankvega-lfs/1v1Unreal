@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\Unreal1v1.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{850B96B6-8DB9-432E-AB69-538AF388EF2F}</UniqueIdentifier>
+      <UniqueIdentifier>{F9CF172D-CED2-4A5A-8666-F18950932DDD}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Unreal1v1.Target.cs">
       <Filter>Source</Filter>
@@ -12,7 +12,7 @@
       <Filter>Source</Filter>
     </None>
     <Filter Include="Config">
-      <UniqueIdentifier>{040781B0-446A-4C0D-96EC-83F07409BEC2}</UniqueIdentifier>
+      <UniqueIdentifier>{1470E3D0-F206-48CE-BDC5-BA61DBC91381}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -30,8 +30,32 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\Unreal1v1">
-      <UniqueIdentifier>{2E223F21-5887-4E6C-8218-6F7CE87B5AA5}</UniqueIdentifier>
+      <UniqueIdentifier>{58AEC116-7203-451B-92A2-C50E4FD9926E}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="..\..\Source\Unreal1v1\FPSCharacter.cpp">
+      <Filter>Source\Unreal1v1</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Unreal1v1\FPSCharacter.h">
+      <Filter>Source\Unreal1v1</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Unreal1v1\FPSTestProjectile.cpp">
+      <Filter>Source\Unreal1v1</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Unreal1v1\FPSTestProjectile.h">
+      <Filter>Source\Unreal1v1</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Unreal1v1\GameModeF.cpp">
+      <Filter>Source\Unreal1v1</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Unreal1v1\GameModeF.h">
+      <Filter>Source\Unreal1v1</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Unreal1v1\PlayerGun.cpp">
+      <Filter>Source\Unreal1v1</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Unreal1v1\PlayerGun.h">
+      <Filter>Source\Unreal1v1</Filter>
+    </ClInclude>
     <None Include="..\..\Source\Unreal1v1\Unreal1v1.Build.cs">
       <Filter>Source\Unreal1v1</Filter>
     </None>

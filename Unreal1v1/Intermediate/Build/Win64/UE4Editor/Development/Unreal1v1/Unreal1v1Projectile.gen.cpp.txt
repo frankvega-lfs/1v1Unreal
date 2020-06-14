@@ -1,5 +1,0 @@
-C:\Users\Mariano Martinez\Desktop\1v1Unreal\Unreal1v1\Intermediate\Build\Win64\UE4Editor\Development\Unreal1v1\Definitions.Unreal1v1.h
-C:\Program Files\Epic Games\UE_4.24\Engine\Source\Runtime\CoreUObject\Public\UObject/GeneratedCppIncludes.h
-C:\Program Files\Epic Games\UE_4.24\Engine\Source\Runtime\CoreUObject\Public\UObject/MetaData.h
-C:\Users\Mariano Martinez\Desktop\1v1Unreal\Unreal1v1\Source\Unreal1v1/Unreal1v1Projectile.h
-C:\Users\Mariano Martinez\Desktop\1v1Unreal\Unreal1v1\Intermediate\Build\Win64\UE4Editor\Inc\Unreal1v1\Unreal1v1Projectile.generated.h

@@ -2,12 +2,12 @@
 	"Targets": [
 		{
 			"Name": "Unreal1v1",
-			"Path": "C:\\Users\\Mariano Martinez\\Desktop\\1v1Unreal\\Unreal1v1\\Source\\Unreal1v1.Target.cs",
+			"Path": "F:\\Frank\\Proyectos Unreal\\1v1Unreal\\Unreal1v1\\Source\\Unreal1v1.Target.cs",
 			"Type": "Game"
 		},
 		{
 			"Name": "Unreal1v1Editor",
-			"Path": "C:\\Users\\Mariano Martinez\\Desktop\\1v1Unreal\\Unreal1v1\\Source\\Unreal1v1Editor.Target.cs",
+			"Path": "F:\\Frank\\Proyectos Unreal\\1v1Unreal\\Unreal1v1\\Source\\Unreal1v1Editor.Target.cs",
 			"Type": "Editor"
 		}
 	]

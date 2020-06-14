@@ -1,0 +1,23 @@
+F:\Frank\Proyectos Unreal\1v1Unreal\Unreal1v1\Intermediate\Build\Win64\UE4Editor\Development\Unreal1v1\Definitions.Unreal1v1.h
+F:\Frank\Proyectos Unreal\1v1Unreal\Unreal1v1\Source\Unreal1v1\GameModeF.h
+F:\Juegos\UE_4.24\Engine\Source\Runtime\Engine\Classes\GameFramework/GameMode.h
+F:\Juegos\UE_4.24\Engine\Source\Runtime\Engine\Classes\GameFramework/GameModeBase.h
+F:\Juegos\UE_4.24\Engine\Source\Runtime\Engine\Classes\Engine/ServerStatReplicator.h
+F:\Juegos\UE_4.24\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\ServerStatReplicator.generated.h
+F:\Juegos\UE_4.24\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\GameModeBase.generated.h
+F:\Juegos\UE_4.24\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\GameMode.generated.h
+F:\Frank\Proyectos Unreal\1v1Unreal\Unreal1v1\Intermediate\Build\Win64\UE4Editor\Inc\Unreal1v1\GameModeF.generated.h
+F:\Juegos\UE_4.24\Engine\Source\Runtime\Engine\Classes\GameFramework/GameState.h
+F:\Juegos\UE_4.24\Engine\Source\Runtime\Engine\Classes\GameFramework/GameStateBase.h
+F:\Juegos\UE_4.24\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\GameStateBase.generated.h
+F:\Juegos\UE_4.24\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\GameState.generated.h
+F:\Frank\Proyectos Unreal\1v1Unreal\Unreal1v1\Source\Unreal1v1\FPSCharacter.h
+F:\Juegos\UE_4.24\Engine\Source\Runtime\Engine\Classes\GameFramework/Character.h
+F:\Juegos\UE_4.24\Engine\Source\Runtime\Engine\Classes\GameFramework/RootMotionSource.h
+F:\Juegos\UE_4.24\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\RootMotionSource.generated.h
+F:\Juegos\UE_4.24\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\Character.generated.h
+F:\Frank\Proyectos Unreal\1v1Unreal\Unreal1v1\Source\Unreal1v1\PlayerGun.h
+F:\Frank\Proyectos Unreal\1v1Unreal\Unreal1v1\Source\Unreal1v1\FPSTestProjectile.h
+F:\Frank\Proyectos Unreal\1v1Unreal\Unreal1v1\Intermediate\Build\Win64\UE4Editor\Inc\Unreal1v1\FPSTestProjectile.generated.h
+F:\Frank\Proyectos Unreal\1v1Unreal\Unreal1v1\Intermediate\Build\Win64\UE4Editor\Inc\Unreal1v1\PlayerGun.generated.h
+F:\Frank\Proyectos Unreal\1v1Unreal\Unreal1v1\Intermediate\Build\Win64\UE4Editor\Inc\Unreal1v1\FPSCharacter.generated.h

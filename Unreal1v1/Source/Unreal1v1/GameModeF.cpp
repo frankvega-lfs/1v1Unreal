@@ -17,21 +17,41 @@ void AGameModeF::InitGame(const FString& MapName, const FString& Options, FStrin
 	DefaultPawnClass = MyDefaultPawnClass;
 }
 
-/*void AGameModeF::ReduceLives(APawn* player)
+void AGameModeF::ReduceLives(APawn* player)
 {
-	APlayerStateF* PlayerState = Cast<APlayerStateF>(player->GetPlayerState());
+	/*APlayerStateF* PlayerState = Cast<APlayerStateF>(player->GetPlayerState());
 	APlayerController* PlayerController = Cast<APlayerController>(PlayerState->GetPawn()->GetController());
 	PlayerState->Kill();
-	PlayerState->GetPawn()->Destroy();
+	PlayerState->GetPawn()->Destroy();*/
+
+	player->Destroy(); //for the moment.
 
 	FTimerDelegate TimerDelegate;
 
-	TimerDelegate.BindUObject(this, &ThisClass::RespawnPlayer, PlayerState, PlayerController);
+	//TimerDelegate.BindUObject(this, &ThisClass::RespawnPlayer, PlayerState, PlayerController);
 
-	GetWorld()->GetTimerManager().SetTimer(RespawnTimerHandle, TimerDelegate, RespawnTime, false);
+	//GetWorld()->GetTimerManager().SetTimer(RespawnTimerHandle, TimerDelegate, RespawnTime, false);
 	
-	UE_LOG(LogTemp, Warning, TEXT("REducing lives... %i"), PlayerState->Lives);
-}*/
+	//UE_LOG(LogTemp, Warning, TEXT("REducing lives... %i"), PlayerState->Lives);
+}
+
+void AGameModeF::ReduceLives(AActor* test)
+{
+	/*APlayerStateF* PlayerState = Cast<APlayerStateF>(player->GetPlayerState());
+	APlayerController* PlayerController = Cast<APlayerController>(PlayerState->GetPawn()->GetController());
+	PlayerState->Kill();
+	PlayerState->GetPawn()->Destroy();*/
+
+	test->Destroy(); //for the moment.
+
+	FTimerDelegate TimerDelegate;
+
+	//TimerDelegate.BindUObject(this, &ThisClass::RespawnPlayer, PlayerState, PlayerController);
+
+	//GetWorld()->GetTimerManager().SetTimer(RespawnTimerHandle, TimerDelegate, RespawnTime, false);
+
+	//UE_LOG(LogTemp, Warning, TEXT("REducing lives... %i"), PlayerState->Lives);
+}
 
 /*void AGameModeF::RespawnPlayer(APlayerStateF* PlayerState, APlayerController* PlayerController)
 {

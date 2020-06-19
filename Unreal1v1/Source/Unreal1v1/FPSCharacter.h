@@ -5,15 +5,15 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "PlayerGun.h"
-//#include "TestInterface.h"
+#include "Damageable.h"
 #include "FPSCharacter.generated.h"
 
-class UHealthComponentFrank;
+class UHealthComponent;
 
 //DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerCreated, APawn*);
 
 UCLASS()
-class AFPSCharacter : public ACharacter
+class AFPSCharacter : public ACharacter, public IDamageable
 {
 	GENERATED_BODY()
 
@@ -65,8 +65,15 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Mesh)
 		class USceneComponent* FP_MuzzleLocation;
 
-	/*UPROPERTY(EditAnywhere)
-		UHealthComponentFrank* HealthComponent;*/
+	UPROPERTY(EditAnywhere)
+		UHealthComponent* HealthComponent;
+
+	UPROPERTY(EditDefaultsOnly)
+		TEnumAsByte<ECollisionChannel> TraceChannel;
+
+	UPROPERTY(EditDefaultsOnly)
+		float TraceDistance = 200;
+
 
 public:	
 	// Called every frame
@@ -102,5 +109,5 @@ public:
 	UFUNCTION()
 	void OnDamageReceived(const AActor* DamageCauser);
 
-	//virtual UHealthComponentFrank* GetHealthComponent() const override { return HealthComponent; }
+	virtual UHealthComponent* GetHealthComponent() const override { return HealthComponent; }
 };

@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "HealthComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDamageReceived, const AActor*, DamageCauser);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UNREAL1V1_API UHealthComponent : public UActorComponent
@@ -23,6 +24,9 @@ public:
 	int Health;
 
 	virtual void ApplyDamage(float Damage, const AActor* DamageCauser);
+
+	UPROPERTY(BlueprintAssignable)
+		FOnDamageReceived OnDamageReceived;
 
 protected:
 	// Called when the game starts

@@ -7,8 +7,10 @@
 #include "GameFramework/InputSettings.h"
 #include "Components/CapsuleComponent.h"
 #include "Camera/CameraComponent.h"
-//#include "HealthComponentFrank.h"
+#include "HealthComponent.h"
 #include "GameModeF.h"
+#include "Interactable.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AFPSCharacter::AFPSCharacter()
@@ -42,8 +44,8 @@ AFPSCharacter::AFPSCharacter()
 	PlayerGun->Mesh1P = Mesh1P;
 	PlayerGun->FireAnimation = FireAnimation;
 
-	//HealthComponent = CreateDefaultSubobject<UHealthComponentFrank>(TEXT("HealthComponent2"));
-	//UE_LOG(LogTemp, Warning, TEXT("Health created"));
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent2"));
+	UE_LOG(LogTemp, Warning, TEXT("Health created"));
 }
 
 // Called when the game starts or when spawned
@@ -54,7 +56,7 @@ void AFPSCharacter::BeginPlay()
 	PlayerGun->FireAnimation = FireAnimation;
 	OriginalWalkSpeed = WalkSpeed;
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
-	//HealthComponent->OnDamageReceived.AddDynamic(this, &ThisClass::OnDamageReceived);
+	HealthComponent->OnDamageReceived.AddDynamic(this, &ThisClass::OnDamageReceived);
 	
 	/*if (HealthComponent == nullptr)
 		UE_LOG(LogTemp, Warning, TEXT("wtf"));
@@ -66,6 +68,7 @@ void AFPSCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	
 }
 
 // Called to bind functionality to input
@@ -127,6 +130,31 @@ void AFPSCharacter::FireGun()
 {
 	if (PlayerGun != NULL)
 	{
+		FCollisionQueryParams QueryParams;
+		QueryParams.AddIgnoredActor(this);
+
+		const FVector& StartPosition = GetActorLocation();
+		FVector EndPosition = GetActorLocation() + GetActorForwardVector() * TraceDistance;
+
+		FHitResult HitResult;
+
+		if (GetWorld()->LineTraceSingleByChannel(HitResult, StartPosition, EndPosition, TraceChannel, QueryParams))
+		{
+			if (HitResult.Actor.IsValid())
+			{
+				IInteractable* ValidInterface = Cast<IInteractable>(HitResult.Actor);
+
+				if (ValidInterface->CanInteract())
+				{
+					UE_LOG(LogTemp, Warning, TEXT("Blocking Hit - Actor %s"), HitResult.Actor.IsValid() ? *HitResult.Actor->GetName() : TEXT("null"));
+				}
+			}
+
+			UE_LOG(LogTemp, Warning, TEXT("HIT ALGO"));
+		}
+
+		UKismetSystemLibrary::DrawDebugLine(this, StartPosition, EndPosition, FLinearColor::Red, 5.0f);
+
 		PlayerGun->OnFire();
 	}
 }
@@ -155,7 +183,7 @@ void AFPSCharacter::StopSprint()
 
 void AFPSCharacter::OnDamageReceived(const AActor* DamageCauser)
 {
-	/*if (HealthComponent->Health <= 0)
+	if (HealthComponent->Health <= 0)
 	{
 		AGameModeF* GameMode = GetWorld()->GetAuthGameMode<AGameModeF>();
 		GameMode->ReduceLives(this);
@@ -163,6 +191,6 @@ void AFPSCharacter::OnDamageReceived(const AActor* DamageCauser)
 		//UE_LOG(LogTemp, Warning, TEXT("OnDamageVolumeOverlapeedEnd - Other Actor Name: %s"), *Other->GetName());
 
 		HealthComponent->Health = 0;
-	}*/
+	}
 }
 

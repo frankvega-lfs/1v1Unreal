@@ -33,5 +33,6 @@ public:
 	UPROPERTY(EditAnywhere)
 	float RespawnTime;
 
-	//void ReduceLives(APawn* player);
+	void ReduceLives(APawn* player);
+	void ReduceLives(AActor* test);
 };

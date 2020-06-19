@@ -32,6 +32,10 @@ void UHealthComponent::ApplyDamage(float Damage, const AActor* DamageCauser)
 		Health = 0;
 	}
 
+	OnDamageReceived.Broadcast(DamageCauser);
+
+	//UE_LOG(LogTemp, Warning, TEXT("Damage applied, current health is : %i"), Health);
+
 	UE_LOG(LogTemp, Warning, TEXT("Health : %i"), Health);
 
 }

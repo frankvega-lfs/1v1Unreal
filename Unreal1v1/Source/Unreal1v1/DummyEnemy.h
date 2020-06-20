@@ -45,9 +45,6 @@ public:
 	UFUNCTION()
 		virtual void OnDamageVolumeOverlapped(UPrimitiveComponent* OverlappedComp, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
-	/*UFUNCTION()
-		virtual void OnDamageVolumeOverlappedEnd(UPrimitiveComponent* OverlappedComp, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);*/
-
 	virtual UHealthComponent* GetHealthComponent() const override { return HealthComponent; }
 
 	virtual void EndPlay(EEndPlayReason::Type EndPlayReason) override;

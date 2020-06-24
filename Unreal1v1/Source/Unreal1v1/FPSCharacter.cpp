@@ -193,14 +193,16 @@ void AFPSCharacter::StopSprint()
 
 void AFPSCharacter::OnDamageReceived(const AActor* DamageCauser)
 {
-	if (HealthComponent->Health <= 0)
-	{
-		AGameModeF* GameMode = GetWorld()->GetAuthGameMode<AGameModeF>();
-		GameMode->ReduceLives(this);
-
-		//UE_LOG(LogTemp, Warning, TEXT("OnDamageVolumeOverlapeedEnd - Other Actor Name: %s"), *Other->GetName());
-
-		HealthComponent->Health = 0;
-	}
+	//TODO Damage Logic
 }
+
+void AFPSCharacter::OnDead()
+{
+	UE_LOG(LogTemp, Warning, TEXT("I'm dead :("));
+	AGameModeF* GameMode = GetWorld()->GetAuthGameMode<AGameModeF>();
+	GameMode->ReduceLives(this);
+
+	//UE_LOG(LogTemp, Warning, TEXT("OnDamageVolumeOverlapeedEnd - Other Actor Name: %s"), *Other->GetName());
+}
+
 

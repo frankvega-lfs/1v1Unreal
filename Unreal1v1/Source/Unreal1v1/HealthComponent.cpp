@@ -10,14 +10,16 @@ UHealthComponent::UHealthComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
+	MaxHealth = 100;
+	Health = MaxHealth;
+
+
 	// ...
 }
 
 void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	Health = MaxHealth;
 
 	// ...
 
@@ -27,26 +29,17 @@ void UHealthComponent::ApplyDamage(float Damage, const AActor* DamageCauser)
 {
 	Health -= Damage;
 
+	OnDamageReceived.Broadcast(DamageCauser);
+
 	if (Health <= 0)
 	{
 		Health = 0;
+		OnDead.Broadcast();
 	}
-
-	OnDamageReceived.Broadcast(DamageCauser);
 
 	//UE_LOG(LogTemp, Warning, TEXT("Damage applied, current health is : %i"), Health);
 
 	UE_LOG(LogTemp, Warning, TEXT("Health : %i"), Health);
 
-}
-
-
-
-// Called every frame
-void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
 }
 

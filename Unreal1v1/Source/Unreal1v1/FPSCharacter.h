@@ -65,7 +65,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Mesh)
 		class USceneComponent* FP_MuzzleLocation;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		UHealthComponent* HealthComponent;
 
 	UPROPERTY(EditDefaultsOnly)
@@ -108,6 +108,14 @@ public:
 
 	UFUNCTION()
 	void OnDamageReceived(const AActor* DamageCauser);
+
+	UFUNCTION()
+	void OnDead();
+
+	UFUNCTION(BlueprintCallable)
+	void TestDamage(int _damage) {
+		OnTakeDamage(_damage, nullptr);
+	}
 
 	virtual UHealthComponent* GetHealthComponent() const override { return HealthComponent; }
 };

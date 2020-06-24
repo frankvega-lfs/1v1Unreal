@@ -46,6 +46,9 @@ public:
 		void OnDamageReceived(const AActor* DamageCauser);
 
 	UFUNCTION()
+		void OnDead();
+
+	UFUNCTION()
 		virtual void OnDamageVolumeOverlapped(UPrimitiveComponent* OverlappedComp, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	virtual UHealthComponent* GetHealthComponent() const override { return HealthComponent; }

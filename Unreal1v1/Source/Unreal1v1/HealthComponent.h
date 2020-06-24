@@ -7,6 +7,8 @@
 #include "HealthComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDamageReceived, const AActor*, DamageCauser);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDead);
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UNREAL1V1_API UHealthComponent : public UActorComponent
@@ -17,24 +19,21 @@ public:
 	// Sets default values for this component's properties
 	UHealthComponent();
 
-	UPROPERTY(EditAnywhere, Category = Player)
-	int MaxHealth;
-
-	UPROPERTY(EditAnywhere, Category = Player)
-	int Health;
-
 	virtual void ApplyDamage(float Damage, const AActor* DamageCauser);
 
 	UPROPERTY(BlueprintAssignable)
 		FOnDamageReceived OnDamageReceived;
 
+	UPROPERTY(BlueprintAssignable)
+		FOnDead OnDead;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+		int MaxHealth;
 
-		
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		int Health;
 };

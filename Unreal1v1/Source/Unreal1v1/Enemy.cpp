@@ -46,15 +46,17 @@ void AEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void AEnemy::OnDamageReceived(const AActor* DamageCauser)
 {
-	if (HealthComponent->Health <= 0)
-	{
-		AGameModeF* GameMode = GetWorld()->GetAuthGameMode<AGameModeF>();
-		GameMode->ReduceLives(this);
+	//TODO APPLY DAMAGE
+}
 
-		//UE_LOG(LogTemp, Warning, TEXT("OnDamageVolumeOverlapeedEnd - Other Actor Name: %s"), *Other->GetName());
+void AEnemy::OnDead()
+{
 
-		HealthComponent->Health = 0;
-	}
+	AGameModeF* GameMode = GetWorld()->GetAuthGameMode<AGameModeF>();
+	GameMode->ReduceLives(this);
+
+	//UE_LOG(LogTemp, Warning, TEXT("OnDamageVolumeOverlapeedEnd - Other Actor Name: %s"), *Other->GetName());
+
 }
 
 void AEnemy::OnDamageVolumeOverlapped(UPrimitiveComponent* OverlappedComp, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

@@ -28,6 +28,7 @@ void ADummyEnemy::BeginPlay()
 
 	DamageVolume->OnComponentBeginOverlap.AddUniqueDynamic(this, &ThisClass::OnDamageVolumeOverlapped);
 	HealthComponent->OnDamageReceived.AddDynamic(this, &ThisClass::OnDamageReceived);
+	HealthComponent->OnDead.AddDynamic(this, &ThisClass::OnDead);
 	//DamageVolume->OnComponentEndOverlap.AddUniqueDynamic(this, &ThisClass::OnDamageVolumeOverlappedEnd);
 	
 }
@@ -80,6 +81,19 @@ void ADummyEnemy::EndPlay(EEndPlayReason::Type EndPlayReason)
 	{
 		DamageVolume->OnComponentBeginOverlap.RemoveDynamic(this, &ThisClass::OnDamageVolumeOverlapped);
 	}
+
+	if (HealthComponent->OnDamageReceived.IsAlreadyBound(this, &ThisClass::OnDamageReceived))
+	{
+		HealthComponent->OnDamageReceived.RemoveDynamic(this, &ThisClass::OnDamageReceived);
+	}
+
+	if (HealthComponent->OnDead.IsAlreadyBound(this, &ThisClass::OnDead))
+	{
+		HealthComponent->OnDead.RemoveDynamic(this, &ThisClass::OnDead);
+	}
+
+	//HealthComponent->OnDamageReceived.AddDynamic(this, &ThisClass::OnDamageReceived);
+	//HealthComponent->OnDead.AddDynamic(this, &ThisClass::OnDead);
 
 	/*if (DamageVolume->OnComponentEndOverlap.IsAlreadyBound(this, &ThisClass::OnDamageVolumeOverlappedEnd))
 	{

@@ -146,18 +146,22 @@ void AFPSCharacter::FireGun()
 
 				// O sino seria ValidInterface->Interact(); // Osea una funcion
 
-				if (ValidInterface->CanInteract())
+				if (ValidInterface != nullptr)
 				{
-					// aca podria ir ValidInterface->Interact();
-					// Para llamar a funciones de interfaces en blueprints :
-					// IInteractableInterface::Execute_Interact(YourActor);
-					// nombre de interfaz :: Tipo ( Actor ) ;
-					// PONER UFUNCTION EN EL H. Con este parametro :
-					// UFUNCTION(BlueprintNativeEvent)
-					// 
+					if (ValidInterface->CanInteract())
+					{
+						// aca podria ir ValidInterface->Interact();
+						// Para llamar a funciones de interfaces en blueprints :
+						// IInteractableInterface::Execute_Interact(YourActor);
+						// nombre de interfaz :: Tipo ( Actor ) ;
+						// PONER UFUNCTION EN EL H. Con este parametro :
+						// UFUNCTION(BlueprintNativeEvent)
+						// 
 
-					UE_LOG(LogTemp, Warning, TEXT("Blocking Hit - Actor %s"), HitResult.Actor.IsValid() ? *HitResult.Actor->GetName() : TEXT("null"));
+						UE_LOG(LogTemp, Warning, TEXT("Blocking Hit - Actor %s"), HitResult.Actor.IsValid() ? *HitResult.Actor->GetName() : TEXT("null"));
+					}
 				}
+
 			}
 
 			UE_LOG(LogTemp, Warning, TEXT("HIT ALGO"));

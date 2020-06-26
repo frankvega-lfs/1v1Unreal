@@ -4,7 +4,9 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameModeF.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/BoxComponent.h"
 #include "HealthComponent.h"
+#include "TimerManager.h"
 #include "Damageable.h"
 #include "FPSTestProjectile.h"
 
@@ -22,8 +24,10 @@ ABasicController::ABasicController()
 	bUseControllerRotationRoll = false;
 
 	//RootComp = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
-	//DamageVolume = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Damage Volume"));
-	//DamageVolume->SetupAttachment(RootComp);
+	DamageVolume = CreateDefaultSubobject<UBoxComponent>(TEXT("Damage Volume"));
+	DamageVolume->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
+	//DamageVolume->AttachTo(RootComponent);
+	DamageVolume->SetupAttachment(RootComponent);
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
 
 	// Configure character movement
@@ -43,10 +47,12 @@ void ABasicController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GetCapsuleComponent()->OnComponentBeginOverlap.AddUniqueDynamic(this, &ThisClass::OnDamageVolumeOverlapped);
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddUniqueDynamic(this, &ThisClass::OnCharacterVolumeOverlapped);
+	DamageVolume->OnComponentBeginOverlap.AddUniqueDynamic(this, &ThisClass::OnDamageVolumeOverlapped);
+	DamageVolume->OnComponentEndOverlap.AddUniqueDynamic(this, &ThisClass::OnDamageVolumeOverlappedEnd);
 	HealthComponent->OnDamageReceived.AddDynamic(this, &ThisClass::OnDamageReceived);
 	HealthComponent->OnDead.AddDynamic(this, &ThisClass::OnDead);
-	//DamageVolume->OnComponentEndOverlap.AddUniqueDynamic(this, &ThisClass::OnDamageVolumeOverlappedEnd);
+	//
 
 }
 
@@ -72,7 +78,7 @@ void ABasicController::OnDead()
 
 }
 
-void ABasicController::OnDamageVolumeOverlapped(UPrimitiveComponent* OverlappedComp, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void ABasicController::OnCharacterVolumeOverlapped(UPrimitiveComponent* OverlappedComp, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (Other == nullptr)
 		return;
@@ -82,21 +88,88 @@ void ABasicController::OnDamageVolumeOverlapped(UPrimitiveComponent* OverlappedC
 	if (Projectile == nullptr)
 		return;
 
-	Projectile->Destroy();
+	OnTakeDamage(Projectile->DamageValue, this);
 
-	OnTakeDamage(10, this);
+	Projectile->Destroy();
 
 	UE_LOG(LogTemp, Warning, TEXT(" OnDamageVolumeOverlapped - Other Actor Name: %s"), *Other->GetName());
 
+}
+
+void ABasicController::OnDamageVolumeOverlapped(UPrimitiveComponent* OverlappedComp, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (Other == nullptr)
+		return;
+
+	GetWorld()->GetTimerManager().SetTimer(DamageTimerHandle, this, &ThisClass::DamageTick, DamageInterval, true);
+
+	IDamageable* Damageable = Cast<IDamageable>(Other);
+
+	if (Damageable == nullptr)
+		return;
+
+	ActorsToDamage.Add(Other);
+
+	UE_LOG(LogTemp, Warning, TEXT(" OnDamageVolumeOverlapped - Other Actor Name: %s"), *Other->GetName());
+
+}
+
+void ABasicController::OnDamageVolumeOverlappedEnd(UPrimitiveComponent* OverlappedComp, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (Other == nullptr)
+		return;
+
+	ActorsToDamage.Remove(Other);
+
+	if (ActorsToDamage.Num() <= 0)
+	{
+		GetWorld()->GetTimerManager().ClearTimer(DamageTimerHandle);
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("OnDamageVolumeOverlapeedEnd - Other Actor Name: %s"), *Other->GetName());
+
+}
+
+void ABasicController::DamageTick()
+{
+	for (AActor* Actor : ActorsToDamage)
+	{
+		/*// try and play a firing animation if specified
+		if (PunchAnimation != NULL)
+		{
+			// Get the animation object for the arms mesh
+			UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+			if (AnimInstance != NULL)
+			{
+				AnimInstance->Montage_Play(PunchAnimation, 1.f);
+			}
+		}*/
+
+		IDamageable* Damageable = Cast<IDamageable>(Actor);
+
+		Damageable->OnTakeDamage(DamageValue, this);
+
+		UE_LOG(LogTemp, Warning, TEXT("Damage Tick"));
+	}
 }
 
 void ABasicController::EndPlay(EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
 
-	if (GetCapsuleComponent()->OnComponentBeginOverlap.IsAlreadyBound(this, &ThisClass::OnDamageVolumeOverlapped))
+	if (GetCapsuleComponent()->OnComponentBeginOverlap.IsAlreadyBound(this, &ThisClass::OnCharacterVolumeOverlapped))
 	{
-		GetCapsuleComponent()->OnComponentBeginOverlap.RemoveDynamic(this, &ThisClass::OnDamageVolumeOverlapped);
+		GetCapsuleComponent()->OnComponentBeginOverlap.RemoveDynamic(this, &ThisClass::OnCharacterVolumeOverlapped);
+	}
+
+	if (DamageVolume->OnComponentBeginOverlap.IsAlreadyBound(this, &ThisClass::OnDamageVolumeOverlapped))
+	{
+		DamageVolume->OnComponentBeginOverlap.RemoveDynamic(this, &ThisClass::OnDamageVolumeOverlapped);
+	}
+
+	if (DamageVolume->OnComponentEndOverlap.IsAlreadyBound(this, &ThisClass::OnDamageVolumeOverlappedEnd))
+	{
+		DamageVolume->OnComponentEndOverlap.RemoveDynamic(this, &ThisClass::OnDamageVolumeOverlappedEnd);
 	}
 
 	if (HealthComponent->OnDamageReceived.IsAlreadyBound(this, &ThisClass::OnDamageReceived))

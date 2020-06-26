@@ -21,6 +21,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class AFPSTestProjectile> ProjectileClass;
 
+	UPROPERTY(EditAnywhere)
+		float DamageValue;
+
 	/** Projectile class to spawn */
 	UPROPERTY(EditAnywhere, Category = Projectile)
 		FRotator ProjectileRotation;

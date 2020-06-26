@@ -11,6 +11,8 @@ class AFPSTestProjectile : public AActor
 {
 	GENERATED_BODY()
 
+		
+
 	/** Sphere collision component */
 	UPROPERTY(VisibleDefaultsOnly, Category=Projectile)
 	class USphereComponent* CollisionComp;
@@ -21,6 +23,9 @@ class AFPSTestProjectile : public AActor
 
 public:
 	AFPSTestProjectile();
+
+	UPROPERTY(EditAnywhere)
+		float DamageValue;
 
 	/** called when projectile hits something */
 	UFUNCTION()

@@ -52,7 +52,9 @@ void UPlayerGun::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompo
 					ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 
 					// spawn the projectile at the muzzle
-					World->SpawnActor<AFPSTestProjectile>(ProjectileClass, FP_MuzzleLocation->GetComponentLocation(), FP_MuzzleLocation->GetComponentRotation(), ActorSpawnParams);
+					AFPSTestProjectile* Proj = World->SpawnActor<AFPSTestProjectile>(ProjectileClass, FP_MuzzleLocation->GetComponentLocation(), FP_MuzzleLocation->GetComponentRotation(), ActorSpawnParams);
+					Proj->DamageValue = DamageValue;
+
 				}
 			}
 

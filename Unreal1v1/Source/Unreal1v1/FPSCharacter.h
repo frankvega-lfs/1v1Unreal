@@ -110,7 +110,12 @@ public:
 	void OnDamageReceived(const AActor* DamageCauser);
 
 	UFUNCTION()
-	void OnDead();
+	void Die();
+
+	FTimerHandle RespawnHandler;
+	void CallDestroy();
+	void CallRespawn();
+
 
 	UFUNCTION(BlueprintCallable)
 	void TestDamage(int _damage) {

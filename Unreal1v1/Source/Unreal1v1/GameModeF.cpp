@@ -53,12 +53,14 @@ void AGameModeF::ReduceLives(AActor* test)
 	//UE_LOG(LogTemp, Warning, TEXT("REducing lives... %i"), PlayerState->Lives);
 }
 
-/*void AGameModeF::RespawnPlayer(APlayerStateF* PlayerState, APlayerController* PlayerController)
+void AGameModeF::Respawn(AController* player)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Respawn...."));
-	if (PlayerState->Lives >= 0)
-	{
-		RestartPlayer(PlayerController);
+
+	if (player) {
+		FVector Location = FVector(-1500.0f, 90.0f, 310.0f); //TODO CHANGE THIS DINAMICALLY
+		if (APawn* Pawn = GetWorld()->SpawnActor<APawn>(DefaultPawnClass, Location, FRotator::ZeroRotator)){
+			player->Possess(Pawn);
+		}
 	}
-	
-}*/
+}

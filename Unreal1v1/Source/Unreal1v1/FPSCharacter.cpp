@@ -57,6 +57,7 @@ void AFPSCharacter::BeginPlay()
 	OriginalWalkSpeed = WalkSpeed;
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 	HealthComponent->OnDamageReceived.AddDynamic(this, &ThisClass::OnDamageReceived);
+	HealthComponent->OnDead.AddDynamic(this, &ThisClass::Die);
 	
 	/*if (HealthComponent == nullptr)
 		UE_LOG(LogTemp, Warning, TEXT("wtf"));
@@ -200,13 +201,22 @@ void AFPSCharacter::OnDamageReceived(const AActor* DamageCauser)
 	//TODO Damage Logic
 }
 
-void AFPSCharacter::OnDead()
+void AFPSCharacter::CallDestroy()
 {
-	UE_LOG(LogTemp, Warning, TEXT("I'm dead :("));
 	AGameModeF* GameMode = GetWorld()->GetAuthGameMode<AGameModeF>();
-	GameMode->ReduceLives(this);
+	GameMode->Respawn(GetController());
+	Destroy();
+}
 
-	//UE_LOG(LogTemp, Warning, TEXT("OnDamageVolumeOverlapeedEnd - Other Actor Name: %s"), *Other->GetName());
+
+void AFPSCharacter::Die()
+{
+	this->GetCharacterMovement()->DisableMovement();
+	
+	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+	this->DisableInput(PlayerController);
+
+	GetWorldTimerManager().SetTimer(RespawnHandler, this, &AFPSCharacter::CallDestroy, 3.0f, false);
 }
 
 

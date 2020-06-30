@@ -71,12 +71,26 @@ void ABasicController::OnDamageReceived(const AActor* DamageCauser)
 void ABasicController::OnDead()
 {
 
-	AGameModeF* GameMode = GetWorld()->GetAuthGameMode<AGameModeF>();
-	GameMode->ReduceLives(this);
+	//AGameModeF* GameMode = GetWorld()->GetAuthGameMode<AGameModeF>();
+	//GameMode->ReduceLives(this);
 
-	//UE_LOG(LogTemp, Warning, TEXT("OnDamageVolumeOverlapeedEnd - Other Actor Name: %s"), *Other->GetName());
+	//ragdoll
+	GetCapsuleComponent()->DestroyComponent();
+	this->GetCharacterMovement()->DisableMovement();
+	this->GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	this->GetMesh()->SetAllBodiesSimulatePhysics(true);
 
+
+
+	//timer
+	GetWorldTimerManager().SetTimer(DestroyHandle, this, &ABasicController::CallDestroy, 3.0f, false);
 }
+
+void ABasicController::CallDestroy()
+{
+	Destroy();
+}
+
 
 void ABasicController::OnCharacterVolumeOverlapped(UPrimitiveComponent* OverlappedComp, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {

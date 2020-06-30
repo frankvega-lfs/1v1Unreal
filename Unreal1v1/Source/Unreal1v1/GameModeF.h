@@ -35,4 +35,6 @@ public:
 
 	void ReduceLives(APawn* player);
 	void ReduceLives(AActor* test);
+
+	void Respawn(AController* player);
 };

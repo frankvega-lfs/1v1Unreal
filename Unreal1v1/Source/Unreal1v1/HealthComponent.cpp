@@ -27,20 +27,19 @@ void UHealthComponent::BeginPlay()
 
 void UHealthComponent::ApplyDamage(float Damage, const AActor* DamageCauser)
 {
+	if (Health <= 0)
+		return;
+
 	Health -= Damage;
 
 	OnDamageReceived.Broadcast(DamageCauser);
 
 	if (Health <= 0)
-	{
+	{	
 		Health = 0;
 		OnDead.Broadcast();
-		//UE_LOG(LogTemp, Warning, TEXT("He dead"));
 	}
 
-	
-
 	UE_LOG(LogTemp, Warning, TEXT("Health : %i"), Health);
-
 }
 

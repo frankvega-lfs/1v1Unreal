@@ -7,6 +7,8 @@
 #include "HealthComponent.h"
 #include "Damageable.h"
 #include "FPSTestProjectile.h"
+#include "GameFramework/CharacterMovementComponent.h"
+
 
 // Sets default values
 AEnemy::AEnemy()
@@ -27,7 +29,7 @@ void AEnemy::BeginPlay()
 	Super::BeginPlay();
 	DamageVolume->OnComponentBeginOverlap.AddUniqueDynamic(this, &ThisClass::OnDamageVolumeOverlapped);
 	HealthComponent->OnDamageReceived.AddDynamic(this, &ThisClass::OnDamageReceived);
-
+	HealthComponent->OnDead.AddDynamic(this, &ThisClass::OnDead);
 }
 
 // Called every frame
@@ -51,12 +53,23 @@ void AEnemy::OnDamageReceived(const AActor* DamageCauser)
 
 void AEnemy::OnDead()
 {
+	//ragdoll
+	this->GetCharacterMovement()->DisableMovement();
+	this->GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	this->GetMesh()->SetAllBodiesSimulatePhysics(true);
 
-	AGameModeF* GameMode = GetWorld()->GetAuthGameMode<AGameModeF>();
-	GameMode->ReduceLives(this);
+
+
+	//timer
+	GetWorldTimerManager().SetTimer(DestroyHandle, this, &AEnemy::CallDestroy, 3.0f, false);
 
 	//UE_LOG(LogTemp, Warning, TEXT("OnDamageVolumeOverlapeedEnd - Other Actor Name: %s"), *Other->GetName());
 
+}
+
+void AEnemy::CallDestroy()
+{
+	Destroy();
 }
 
 void AEnemy::OnDamageVolumeOverlapped(UPrimitiveComponent* OverlappedComp, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

@@ -78,5 +78,8 @@ public:
 
 	virtual void EndPlay(EEndPlayReason::Type EndPlayReason) override;
 
+	FTimerHandle DestroyHandle;
+	void CallDestroy();
+
 };
 

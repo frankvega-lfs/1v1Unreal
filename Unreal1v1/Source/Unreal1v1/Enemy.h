@@ -3,13 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
+#include "GameFramework/Character.h"
 #include "Damageable.h"
 #include "Interactable.h"
 #include "Enemy.generated.h"
 
 UCLASS()
-class UNREAL1V1_API AEnemy : public APawn, public IDamageable
+class UNREAL1V1_API AEnemy : public ACharacter, public IDamageable
 {
 	GENERATED_BODY()
 
@@ -50,6 +50,10 @@ public:
 
 	UFUNCTION()
 		virtual void OnDamageVolumeOverlapped(UPrimitiveComponent* OverlappedComp, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+
+	FTimerHandle DestroyHandle;
+	void CallDestroy();
 
 	virtual UHealthComponent* GetHealthComponent() const override { return HealthComponent; }
 

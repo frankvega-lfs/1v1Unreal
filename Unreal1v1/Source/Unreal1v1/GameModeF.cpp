@@ -76,6 +76,7 @@ void AGameModeF::CheckEnemiesKilled()
 
 	if (enemiesLeft <= 0)
 	{
+		enemiesLeft = 0;
 		if (CurrentDoors.Num() > 0)
 		{
 			for (size_t i = 0; i < CurrentDoors.Num(); i++)

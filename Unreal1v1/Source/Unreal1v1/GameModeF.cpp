@@ -6,6 +6,7 @@
 #include "FPSCharacter.h"
 /*#include "HealthComponentFrank.h"
 #include "PlayerStateF.h"*/
+#include "kismet/GameplayStatics.h"
 #include "TimerManager.h"
 //#include "Components/BoxComponent.h"
 #include "Engine/World.h"
@@ -15,52 +16,99 @@ void AGameModeF::InitGame(const FString& MapName, const FString& Options, FStrin
 	Super::InitGame(MapName, Options, ErrorMessage);
 
 	DefaultPawnClass = MyDefaultPawnClass;
+	enemiesLeft = enemiesToKill;
+
+	TArray<AActor*> Doors;
+
+	UGameplayStatics::GetAllActorsOfClass(this, ADoor::StaticClass(), Doors);
+
+
+	for (AActor* Actor : Doors)
+	{
+		ADoor* ActorDoor = Cast<ADoor>(Actor);
+		CurrentDoors.Add(ActorDoor);
+	}
+
+	if (CurrentDoors.Num() > 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Succesfully added doors!"));
+	}
 }
 
 void AGameModeF::ReduceLives(APawn* player)
 {
-	/*APlayerStateF* PlayerState = Cast<APlayerStateF>(player->GetPlayerState());
-	APlayerController* PlayerController = Cast<APlayerController>(PlayerState->GetPawn()->GetController());
-	PlayerState->Kill();
-	PlayerState->GetPawn()->Destroy();*/
+	UE_LOG(LogTemp, Warning, TEXT("Player Death!"));
 
-	player->Destroy(); //for the moment.
+	APlayerController* PlayerController = Cast<APlayerController>(player->GetController());
 
-	FTimerDelegate TimerDelegate;
+	if (PlayerController != nullptr)
+	{
+		player->Destroy();
 
-	//TimerDelegate.BindUObject(this, &ThisClass::RespawnPlayer, PlayerState, PlayerController);
+		FTimerDelegate TimerDelegate;
 
-	//GetWorld()->GetTimerManager().SetTimer(RespawnTimerHandle, TimerDelegate, RespawnTime, false);
-	
-	//UE_LOG(LogTemp, Warning, TEXT("REducing lives... %i"), PlayerState->Lives);
+		TimerDelegate.BindUObject(this, &ThisClass::Respawn, PlayerController);
+
+		GetWorld()->GetTimerManager().SetTimer(RespawnTimerHandle, TimerDelegate, RespawnTime, false);
+	}
+	else
+	{
+		player->Destroy();
+	}
 }
 
 void AGameModeF::ReduceLives(AActor* test)
 {
-	/*APlayerStateF* PlayerState = Cast<APlayerStateF>(player->GetPlayerState());
-	APlayerController* PlayerController = Cast<APlayerController>(PlayerState->GetPawn()->GetController());
-	PlayerState->Kill();
-	PlayerState->GetPawn()->Destroy();*/
 
-	test->Destroy(); //for the moment.
+	UE_LOG(LogTemp, Warning, TEXT("Actor Death!"));
 
-	FTimerDelegate TimerDelegate;
-
-	//TimerDelegate.BindUObject(this, &ThisClass::RespawnPlayer, PlayerState, PlayerController);
-
-	//GetWorld()->GetTimerManager().SetTimer(RespawnTimerHandle, TimerDelegate, RespawnTime, false);
+	if (test != nullptr)
+	{
+		test->Destroy();
+	}
 
 	//UE_LOG(LogTemp, Warning, TEXT("REducing lives... %i"), PlayerState->Lives);
 }
 
-void AGameModeF::Respawn(AController* player)
+void AGameModeF::CheckEnemiesKilled()
+{
+	enemiesLeft--;
+
+	if (enemiesLeft <= 0)
+	{
+		if (CurrentDoors.Num() > 0)
+		{
+			for (size_t i = 0; i < CurrentDoors.Num(); i++)
+			{
+				CurrentDoors[i]->Destroy();
+			}		
+
+			CurrentDoors.Empty();
+			UE_LOG(LogTemp, Warning, TEXT("Succesfully DELETED doors!"));
+		}
+	}
+}
+
+void AGameModeF::ChangeMap(FString MapName)
+{
+	for (int i = 0; i < Maps.Num(); i++)
+	{
+		FString text = Maps[i].ToSoftObjectPath().GetSubPathString();
+		FString text2 = Maps[i].ToSoftObjectPath().GetAssetName();
+
+		if (MapName == text + text2)
+		{
+			GetWorld()->ServerTravel(MapName);
+		}
+	}
+}
+
+void AGameModeF::Respawn(APlayerController* player)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Respawn...."));
 
-	if (player) {
-		FVector Location = FVector(-1500.0f, 90.0f, 310.0f); //TODO CHANGE THIS DINAMICALLY
-		if (APawn* Pawn = GetWorld()->SpawnActor<APawn>(DefaultPawnClass, Location, FRotator::ZeroRotator)){
-			player->Possess(Pawn);
-		}
+	if (player) 
+	{
+		RestartPlayer(player);
 	}
 }

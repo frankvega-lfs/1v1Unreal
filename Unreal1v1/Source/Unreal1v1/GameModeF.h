@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameMode.h"
+#include "Door.h"
 //#include "PlayerStateF.h"
 #include "GameModeF.generated.h"
 
@@ -17,8 +18,18 @@ class AGameModeF : public AGameMode
 {
 	GENERATED_BODY()
 
+		
 
 protected:
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+		TArray<TSoftObjectPtr<UWorld>> Maps;
+
+	UPROPERTY(Transient)
+		TArray<class ADoor*> CurrentDoors;
+
+	UPROPERTY(EditAnywhere)
+		int enemiesLeft;
 
 	FTimerHandle RespawnTimerHandle;
 
@@ -31,10 +42,15 @@ protected:
 public:
 
 	UPROPERTY(EditAnywhere)
+		int enemiesToKill;
+
+	UPROPERTY(EditAnywhere)
 	float RespawnTime;
 
 	void ReduceLives(APawn* player);
 	void ReduceLives(AActor* test);
+	void CheckEnemiesKilled();
+	void ChangeMap(FString MapName);
 
-	void Respawn(AController* player);
+	void Respawn(APlayerController* player);
 };

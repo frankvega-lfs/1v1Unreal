@@ -8,6 +8,7 @@
 #include "HealthComponent.h"
 #include "TimerManager.h"
 #include "Damageable.h"
+#include "FPSCharacter.h"
 #include "FPSTestProjectile.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -70,20 +71,22 @@ void ABasicController::OnDamageReceived(const AActor* DamageCauser)
 
 void ABasicController::OnDead()
 {
-
-	//AGameModeF* GameMode = GetWorld()->GetAuthGameMode<AGameModeF>();
-	//GameMode->ReduceLives(this);
-
 	//ragdoll
+	AGameModeF* GameMode = GetWorld()->GetAuthGameMode<AGameModeF>();
+	GameMode->CheckEnemiesKilled();
+	GetController()->UnPossess();
+	DamageVolume->DestroyComponent();
 	GetCapsuleComponent()->DestroyComponent();
 	this->GetCharacterMovement()->DisableMovement();
-	this->GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
-	this->GetMesh()->SetAllBodiesSimulatePhysics(true);
+	GameMode->ReduceLives(this);
 
+	//this->GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	//this->GetMesh()->SetAllBodiesSimulatePhysics(true);
 
+	//CallDestroy();
 
 	//timer
-	GetWorldTimerManager().SetTimer(DestroyHandle, this, &ABasicController::CallDestroy, 3.0f, false);
+	//GetWorldTimerManager().SetTimer(DestroyHandle, this, &ABasicController::CallDestroy, 3.0f, false);
 }
 
 void ABasicController::CallDestroy()
@@ -148,22 +151,25 @@ void ABasicController::DamageTick()
 {
 	for (AActor* Actor : ActorsToDamage)
 	{
-		/*// try and play a firing animation if specified
-		if (PunchAnimation != NULL)
+		if (Actor != nullptr)
 		{
-			// Get the animation object for the arms mesh
-			UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
-			if (AnimInstance != NULL)
+			AFPSCharacter* Character = Cast<AFPSCharacter>(Actor);
+
+			if (Character != nullptr)
 			{
-				AnimInstance->Montage_Play(PunchAnimation, 1.f);
+				IDamageable* Damageable = Cast<IDamageable>(Character);
+
+				if (Damageable != nullptr)
+				{
+					Damageable->OnTakeDamage(DamageValue, this);
+
+					UE_LOG(LogTemp, Warning, TEXT("Damage Tick"));
+				}
 			}
-		}*/
+			
 
-		IDamageable* Damageable = Cast<IDamageable>(Actor);
+		}
 
-		Damageable->OnTakeDamage(DamageValue, this);
-
-		UE_LOG(LogTemp, Warning, TEXT("Damage Tick"));
 	}
 }
 

@@ -131,7 +131,7 @@ void AFPSCharacter::FireGun()
 {
 	if (PlayerGun != NULL)
 	{
-		FCollisionQueryParams QueryParams;
+		/*FCollisionQueryParams QueryParams;
 		QueryParams.AddIgnoredActor(this);
 
 		const FVector& StartPosition = GetActorLocation();
@@ -168,7 +168,7 @@ void AFPSCharacter::FireGun()
 			UE_LOG(LogTemp, Warning, TEXT("HIT ALGO"));
 		}
 
-		UKismetSystemLibrary::DrawDebugLine(this, StartPosition, EndPosition, FLinearColor::Red, 5.0f);
+		UKismetSystemLibrary::DrawDebugLine(this, StartPosition, EndPosition, FLinearColor::Red, 5.0f);*/
 
 		PlayerGun->OnFire();
 	}
@@ -204,8 +204,9 @@ void AFPSCharacter::OnDamageReceived(const AActor* DamageCauser)
 void AFPSCharacter::CallDestroy()
 {
 	AGameModeF* GameMode = GetWorld()->GetAuthGameMode<AGameModeF>();
-	GameMode->Respawn(GetController());
-	Destroy();
+	//GameMode->Respawn(GetController());
+	GameMode->ReduceLives(this);
+	//Destroy();
 }
 
 
@@ -216,7 +217,13 @@ void AFPSCharacter::Die()
 	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
 	this->DisableInput(PlayerController);
 
-	GetWorldTimerManager().SetTimer(RespawnHandler, this, &AFPSCharacter::CallDestroy, 3.0f, false);
+	if (PlayerGun != NULL)
+	{
+		PlayerGun->OnStopFire();
+	}
+
+	CallDestroy();
+	//GetWorldTimerManager().SetTimer(RespawnHandler, this, &AFPSCharacter::CallDestroy, 3.0f, false);
 }
 
 

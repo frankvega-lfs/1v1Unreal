@@ -28,8 +28,7 @@ protected:
 	UPROPERTY(Transient)
 		TArray<class ADoor*> CurrentDoors;
 
-	UPROPERTY(EditAnywhere)
-		int enemiesLeft;
+	
 
 	FTimerHandle RespawnTimerHandle;
 
@@ -41,7 +40,10 @@ protected:
 	//void RespawnPlayer(APlayerStateF* PlayerState, APlayerController* PlayerController);
 public:
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		int enemiesLeft;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		int enemiesToKill;
 
 	UPROPERTY(EditAnywhere)

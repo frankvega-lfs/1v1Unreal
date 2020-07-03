@@ -4,11 +4,8 @@
 #include "GameModeF.h"
 #include "GameFramework/GameState.h"
 #include "FPSCharacter.h"
-/*#include "HealthComponentFrank.h"
-#include "PlayerStateF.h"*/
 #include "kismet/GameplayStatics.h"
 #include "TimerManager.h"
-//#include "Components/BoxComponent.h"
 #include "Engine/World.h"
 
 void AGameModeF::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
@@ -35,39 +32,42 @@ void AGameModeF::InitGame(const FString& MapName, const FString& Options, FStrin
 	}
 }
 
-void AGameModeF::ReduceLives(APawn* player)
+void AGameModeF::ReduceLives(APawn* Player)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Player Death!"));
 
-	APlayerController* PlayerController = Cast<APlayerController>(player->GetController());
+	APlayerController* PlayerController = Cast<APlayerController>(Player->GetController());
+	APlayerStateFPS* PlayerState = Cast<APlayerStateFPS>(Player->GetPlayerState());
+	
 
 	if (PlayerController != nullptr)
 	{
-		player->Destroy();
+		PlayerState->Kill();
 
-		FTimerDelegate TimerDelegate;
+		Player->Destroy();
 
-		TimerDelegate.BindUObject(this, &ThisClass::Respawn, PlayerController);
+		if (PlayerState->Lives > 0)
+		{
+			FTimerDelegate TimerDelegate;
 
-		GetWorld()->GetTimerManager().SetTimer(RespawnTimerHandle, TimerDelegate, RespawnTime, false);
+			TimerDelegate.BindUObject(this, &ThisClass::Respawn, PlayerState, PlayerController);
+
+			GetWorld()->GetTimerManager().SetTimer(RespawnTimerHandle, TimerDelegate, RespawnTime, false);
+		}
+		else
+		{
+			FTimerDelegate TimerDelegate2;
+
+			TimerDelegate2.BindUObject(this, &ThisClass::ChangeMap, LossMapName);
+
+			GetWorld()->GetTimerManager().SetTimer(RespawnTimerHandle2, TimerDelegate2, RespawnTime, false);
+		}
+		
 	}
 	else
 	{
-		player->Destroy();
+		Player->Destroy();
 	}
-}
-
-void AGameModeF::ReduceLives(AActor* test)
-{
-
-	UE_LOG(LogTemp, Warning, TEXT("Actor Death!"));
-
-	if (test != nullptr)
-	{
-		test->Destroy();
-	}
-
-	//UE_LOG(LogTemp, Warning, TEXT("REducing lives... %i"), PlayerState->Lives);
 }
 
 void AGameModeF::CheckEnemiesKilled()
@@ -104,12 +104,12 @@ void AGameModeF::ChangeMap(FString MapName)
 	}
 }
 
-void AGameModeF::Respawn(APlayerController* player)
+void AGameModeF::Respawn(APlayerStateFPS* PlayerState, APlayerController* PlayerController)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Respawn...."));
 
-	if (player) 
+	if (PlayerState->Lives > 0)
 	{
-		RestartPlayer(player);
+		RestartPlayer(PlayerController);
 	}
 }

@@ -48,8 +48,8 @@ void ADummyEnemy::OnDamageReceived(const AActor* DamageCauser)
 void ADummyEnemy::OnDead()
 {
 
-	AGameModeF* GameMode = GetWorld()->GetAuthGameMode<AGameModeF>();
-	GameMode->ReduceLives(this);
+	/*AGameModeF* GameMode = GetWorld()->GetAuthGameMode<AGameModeF>();
+	GameMode->ReduceLives(this);*/
 
 	//UE_LOG(LogTemp, Warning, TEXT("OnDamageVolumeOverlapeedEnd - Other Actor Name: %s"), *Other->GetName());
 

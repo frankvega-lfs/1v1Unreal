@@ -14,12 +14,7 @@ class UHealthComponent;
 UCLASS(config=Game)
 class ABasicController : public ACharacter, public IDamageable
 {
-	GENERATED_BODY()
-
-		/*UPROPERTY(EditAnywhere)
-		class USceneComponent* RootComp;*/
-
-		
+	GENERATED_BODY()		
 
 	UPROPERTY(EditAnywhere)
 		UHealthComponent* HealthComponent;

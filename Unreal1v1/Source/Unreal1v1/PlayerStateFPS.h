@@ -22,7 +22,7 @@ protected:
 public:
 	APlayerStateFPS();
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		int Lives;
 
 	void Kill();

@@ -35,7 +35,7 @@ void UPlayerGun::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompo
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (CanShoot)
+	if (bCanShoot)
 	{
 		FireRateTimer += DeltaTime;
 
@@ -85,19 +85,14 @@ void UPlayerGun::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompo
 	// ...
 }
 
-void UPlayerGun::Set(USceneComponent* Component)
-{
-	//FirstPersonCameraComponent->SetupAttachment(Component);
-}
-
 void UPlayerGun::OnFire()
 {
-	CanShoot = true;
+	bCanShoot = true;
 }
 
 void UPlayerGun::OnStopFire()
 {
-	CanShoot = false;
+	bCanShoot = false;
 	FireRateTimer = FireRate;
 }
 

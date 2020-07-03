@@ -14,7 +14,7 @@ ALevelChangeTrigger::ALevelChangeTrigger()
 
 	RootComp = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	TriggerVolume = CreateDefaultSubobject<UBoxComponent>(TEXT("Trigger Volume"));
-	TriggerVolume->AttachTo(RootComp);
+	TriggerVolume->SetupAttachment(RootComp);
 
 }
 
@@ -29,7 +29,6 @@ void ALevelChangeTrigger::BeginPlay()
 
 void ALevelChangeTrigger::EndPlay(EEndPlayReason::Type EndPlayReason)
 {
-	//TriggerVolume->OnComponentBeginOverlap.AddUniqueDynamic(this, &ThisClass::OnTriggerOverlapped);
 
 	if (TriggerVolume->OnComponentBeginOverlap.IsAlreadyBound(this, &ThisClass::OnTriggerOverlapped))
 	{

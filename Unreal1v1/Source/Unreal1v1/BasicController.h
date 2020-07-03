@@ -38,8 +38,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	
-
 	UFUNCTION()
 		void DamageTick();
 
@@ -47,15 +45,17 @@ protected:
 public:
 	ABasicController();
 
-	/** AnimMontage to play each time we fire */
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		class UAnimMontage* PunchAnimation;*/
+	//FTimerHandle DestroyHandle;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION()
-		void OnDamageReceived(const AActor* DamageCauser);
+	virtual void EndPlay(EEndPlayReason::Type EndPlayReason) override;
+
+	virtual UHealthComponent* GetHealthComponent() const override { return HealthComponent; }
+
+	/*UFUNCTION()
+		void OnDamageReceived(const AActor* DamageCauser);*/
 
 	UFUNCTION()
 		void OnDead();
@@ -68,13 +68,6 @@ public:
 
 	UFUNCTION()
 		virtual void OnDamageVolumeOverlappedEnd(UPrimitiveComponent* OverlappedComp, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-
-	virtual UHealthComponent* GetHealthComponent() const override { return HealthComponent; }
-
-	virtual void EndPlay(EEndPlayReason::Type EndPlayReason) override;
-
-	FTimerHandle DestroyHandle;
-	void CallDestroy();
 
 };
 

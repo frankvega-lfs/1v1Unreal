@@ -4,9 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameMode.h"
-#include "Door.h"
 #include "PlayerStateFPS.h"
 #include "GameModeF.generated.h"
+
+class ADoor;
 
 // restar vida en el player state. llama al metodo kill de player state. puede destruir el actor. mecanica de respawn.
 UCLASS()
@@ -14,9 +15,15 @@ class AGameModeF : public AGameMode
 {
 	GENERATED_BODY()
 
-		
-
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		int EnemiesLeft;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		int EnemiesToKill;
+
+	UPROPERTY(EditAnywhere)
+		float RespawnTime;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 		TArray<TSoftObjectPtr<UWorld>> Maps;
@@ -27,29 +34,24 @@ protected:
 	UPROPERTY(Transient)
 		TArray<class ADoor*> CurrentDoors;
 
-	
-
-	FTimerHandle RespawnTimerHandle;
-	FTimerHandle RespawnTimerHandle2;
-
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<APawn> MyDefaultPawnClass;
+
+	FTimerHandle RespawnTimerHandle;
+	FTimerHandle ChangeMapTimerHandle;
 
 	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
 public:
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-		int enemiesLeft;
+	UFUNCTION()
+		void ReduceLives(APawn* Player);
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-		int enemiesToKill;
+	UFUNCTION()
+		void CheckEnemiesKilled();
 
-	UPROPERTY(EditAnywhere)
-	float RespawnTime;
+	UFUNCTION()
+		void ChangeMap(FString MapName);
 
-	void ReduceLives(APawn* Player);
-	void CheckEnemiesKilled();
-	void ChangeMap(FString MapName);
-
-	void Respawn(APlayerStateFPS* PlayerState, APlayerController* PlayerController);
+	UFUNCTION()
+		void Respawn(APlayerStateFPS* PlayerState, APlayerController* PlayerController);
 };

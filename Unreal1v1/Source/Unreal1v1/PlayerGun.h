@@ -12,7 +12,6 @@ UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UPlayerGun : public USceneComponent
 {
 	GENERATED_BODY()
-
 public:	
 	// Sets default values for this component's properties
 	UPlayerGun();
@@ -42,7 +41,7 @@ public:
 
 	/** Sound to play each time we fire */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay)
-		bool CanShoot;
+		bool bCanShoot;
 
 	/** Sound to play each time we fire */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay)
@@ -60,23 +59,16 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay)
 		class USkeletalMeshComponent* Mesh1P;
 
-	/*
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class UCameraComponent* FirstPersonCameraComponent;*/
-
-protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-	
-
-public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	void Set(USceneComponent* Component);
+
+	UFUNCTION()
 	void OnFire();
+
+	UFUNCTION()
 	void OnStopFire();
-	/** Returns Mesh1P subobject **/
-	//FORCEINLINE class USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
 		
 };

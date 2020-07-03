@@ -12,9 +12,6 @@ UHealthComponent::UHealthComponent()
 
 	MaxHealth = 100;
 	Health = MaxHealth;
-
-
-	// ...
 }
 
 void UHealthComponent::BeginPlay()

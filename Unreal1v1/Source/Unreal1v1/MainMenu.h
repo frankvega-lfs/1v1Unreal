@@ -24,6 +24,7 @@ protected:
 
 	virtual void NativeOnInitialized() override;
 
+	UFUNCTION()
 	void OnButtonClicked();
 	
 };

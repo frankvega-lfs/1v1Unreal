@@ -8,9 +8,11 @@
 #include "Components/CapsuleComponent.h"
 #include "Camera/CameraComponent.h"
 #include "HealthComponent.h"
+#include "PlayerGun.h"
 #include "GameModeF.h"
 #include "Interactable.h"
 #include "Kismet/GameplayStatics.h"
+
 
 // Sets default values
 AFPSCharacter::AFPSCharacter()
@@ -39,7 +41,7 @@ AFPSCharacter::AFPSCharacter()
 	FP_MuzzleLocation->SetupAttachment(FP_Gun);
 
 	PlayerGun = CreateDefaultSubobject<UPlayerGun>(TEXT("Weapon Logic"));
-	PlayerGun->Set(GetCapsuleComponent());
+	//PlayerGun->Set(GetCapsuleComponent());
 	PlayerGun->FP_MuzzleLocation = FP_MuzzleLocation;
 	PlayerGun->Mesh1P = Mesh1P;
 	PlayerGun->FireAnimation = FireAnimation;
@@ -56,12 +58,18 @@ void AFPSCharacter::BeginPlay()
 	PlayerGun->FireAnimation = FireAnimation;
 	OriginalWalkSpeed = WalkSpeed;
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
-	HealthComponent->OnDamageReceived.AddDynamic(this, &ThisClass::OnDamageReceived);
+	//HealthComponent->OnDamageReceived.AddDynamic(this, &ThisClass::OnDamageReceived);
 	HealthComponent->OnDead.AddDynamic(this, &ThisClass::Die);
-	
-	/*if (HealthComponent == nullptr)
-		UE_LOG(LogTemp, Warning, TEXT("wtf"));
-	*/
+}
+
+void AFPSCharacter::EndPlay(EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+
+	if (HealthComponent->OnDead.IsAlreadyBound(this, &ThisClass::Die))
+	{
+		HealthComponent->OnDead.RemoveDynamic(this, &ThisClass::Die);
+	}
 }
 
 // Called every frame
@@ -84,7 +92,6 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AFPSCharacter::StopSprint);
 
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AFPSCharacter::Jump);
-	//PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AFPSCharacter::Crouch);
 
 	// Bind movement events
 	PlayerInputComponent->BindAxis("MoveForward", this, &AFPSCharacter::MoveForward);
@@ -131,45 +138,6 @@ void AFPSCharacter::FireGun()
 {
 	if (PlayerGun != NULL)
 	{
-		/*FCollisionQueryParams QueryParams;
-		QueryParams.AddIgnoredActor(this);
-
-		const FVector& StartPosition = GetActorLocation();
-		FVector EndPosition = GetActorLocation() + GetActorForwardVector() * TraceDistance;
-
-		FHitResult HitResult;
-
-		if (GetWorld()->LineTraceSingleByChannel(HitResult, StartPosition, EndPosition, TraceChannel, QueryParams))
-		{
-			if (HitResult.Actor.IsValid()) // Hitresult.Actor != null
-			{
-				IInteractable* ValidInterface = Cast<IInteractable>(HitResult.Actor);
-
-				// O sino seria ValidInterface->Interact(); // Osea una funcion
-
-				if (ValidInterface != nullptr)
-				{
-					if (ValidInterface->CanInteract())
-					{
-						// aca podria ir ValidInterface->Interact();
-						// Para llamar a funciones de interfaces en blueprints :
-						// IInteractableInterface::Execute_Interact(YourActor);
-						// nombre de interfaz :: Tipo ( Actor ) ;
-						// PONER UFUNCTION EN EL H. Con este parametro :
-						// UFUNCTION(BlueprintNativeEvent)
-						// 
-
-						UE_LOG(LogTemp, Warning, TEXT("Blocking Hit - Actor %s"), HitResult.Actor.IsValid() ? *HitResult.Actor->GetName() : TEXT("null"));
-					}
-				}
-
-			}
-
-			UE_LOG(LogTemp, Warning, TEXT("HIT ALGO"));
-		}
-
-		UKismetSystemLibrary::DrawDebugLine(this, StartPosition, EndPosition, FLinearColor::Red, 5.0f);*/
-
 		PlayerGun->OnFire();
 	}
 }
@@ -196,19 +164,10 @@ void AFPSCharacter::StopSprint()
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
-void AFPSCharacter::OnDamageReceived(const AActor* DamageCauser)
+/*void AFPSCharacter::OnDamageReceived(const AActor* DamageCauser)
 {
 	//TODO Damage Logic
-}
-
-void AFPSCharacter::CallDestroy()
-{
-	AGameModeF* GameMode = GetWorld()->GetAuthGameMode<AGameModeF>();
-	//GameMode->Respawn(GetController());
-	GameMode->ReduceLives(this);
-	//Destroy();
-}
-
+}*/
 
 void AFPSCharacter::Die()
 {
@@ -222,8 +181,8 @@ void AFPSCharacter::Die()
 		PlayerGun->OnStopFire();
 	}
 
-	CallDestroy();
-	//GetWorldTimerManager().SetTimer(RespawnHandler, this, &AFPSCharacter::CallDestroy, 3.0f, false);
+	AGameModeF* GameMode = GetWorld()->GetAuthGameMode<AGameModeF>();
+	GameMode->ReduceLives(this);
 }
 
 

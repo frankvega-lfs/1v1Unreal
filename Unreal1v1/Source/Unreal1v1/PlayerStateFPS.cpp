@@ -20,8 +20,8 @@ void APlayerStateFPS::Kill()
 	}
 }
 
-void APlayerStateFPS::SetMaxLives(int amount)
+void APlayerStateFPS::SetMaxLives(int Amount)
 {
-	MaxLives = amount;
+	MaxLives = Amount;
 	Lives = MaxLives;
 }

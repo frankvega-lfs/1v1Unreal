@@ -7,7 +7,6 @@
 #include "Components/BoxComponent.h"
 #include "HealthComponent.h"
 #include "TimerManager.h"
-#include "Damageable.h"
 #include "FPSCharacter.h"
 #include "FPSTestProjectile.h"
 
@@ -24,10 +23,8 @@ ABasicController::ABasicController()
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 
-	//RootComp = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	DamageVolume = CreateDefaultSubobject<UBoxComponent>(TEXT("Damage Volume"));
 	DamageVolume->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
-	//DamageVolume->AttachTo(RootComponent);
 	DamageVolume->SetupAttachment(RootComponent);
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
 
@@ -51,9 +48,8 @@ void ABasicController::BeginPlay()
 	GetCapsuleComponent()->OnComponentBeginOverlap.AddUniqueDynamic(this, &ThisClass::OnCharacterVolumeOverlapped);
 	DamageVolume->OnComponentBeginOverlap.AddUniqueDynamic(this, &ThisClass::OnDamageVolumeOverlapped);
 	DamageVolume->OnComponentEndOverlap.AddUniqueDynamic(this, &ThisClass::OnDamageVolumeOverlappedEnd);
-	HealthComponent->OnDamageReceived.AddDynamic(this, &ThisClass::OnDamageReceived);
+	//HealthComponent->OnDamageReceived.AddDynamic(this, &ThisClass::OnDamageReceived);
 	HealthComponent->OnDead.AddDynamic(this, &ThisClass::OnDead);
-	//
 
 }
 
@@ -64,34 +60,25 @@ void ABasicController::Tick(float DeltaTime)
 
 }
 
-void ABasicController::OnDamageReceived(const AActor* DamageCauser)
+/*void ABasicController::OnDamageReceived(const AActor* DamageCauser)
 {
 	//TODO APPLY DAMAGE
-}
+}*/
 
 void ABasicController::OnDead()
 {
-	//ragdoll
 	AGameModeF* GameMode = GetWorld()->GetAuthGameMode<AGameModeF>();
-	GameMode->CheckEnemiesKilled();
 	GetController()->UnPossess();
 	DamageVolume->DestroyComponent();
 	GetCapsuleComponent()->DestroyComponent();
 	this->GetCharacterMovement()->DisableMovement();
 	GameMode->ReduceLives(this);
+	GameMode->CheckEnemiesKilled();
+
+	//Ragdoll Mode (It crashes at random times at the moment)
 
 	//this->GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 	//this->GetMesh()->SetAllBodiesSimulatePhysics(true);
-
-	//CallDestroy();
-
-	//timer
-	//GetWorldTimerManager().SetTimer(DestroyHandle, this, &ABasicController::CallDestroy, 3.0f, false);
-}
-
-void ABasicController::CallDestroy()
-{
-	Destroy();
 }
 
 
@@ -192,10 +179,10 @@ void ABasicController::EndPlay(EEndPlayReason::Type EndPlayReason)
 		DamageVolume->OnComponentEndOverlap.RemoveDynamic(this, &ThisClass::OnDamageVolumeOverlappedEnd);
 	}
 
-	if (HealthComponent->OnDamageReceived.IsAlreadyBound(this, &ThisClass::OnDamageReceived))
+	/*if (HealthComponent->OnDamageReceived.IsAlreadyBound(this, &ThisClass::OnDamageReceived))
 	{
 		HealthComponent->OnDamageReceived.RemoveDynamic(this, &ThisClass::OnDamageReceived);
-	}
+	}*/
 
 	if (HealthComponent->OnDead.IsAlreadyBound(this, &ThisClass::OnDead))
 	{

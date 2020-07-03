@@ -14,13 +14,4 @@ UCLASS()
 class UNREAL1V1_API AEnemyAIController : public AAIController
 {
 	GENERATED_BODY()
-	
-protected:
-	/*UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<UBlackboardData> BlackboardAsset;
-
-	UPROPERTY(EditAnywhere)
-		UBlackboardComponent* Blackboard;*/
-
-	//virtual void BeginPlay() override;
 };

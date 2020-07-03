@@ -25,6 +25,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		int Lives;
 
+	UFUNCTION()
 	void Kill();
-	void SetMaxLives(int amount);
+
+	UFUNCTION()
+	void SetMaxLives(int Amount);
 };

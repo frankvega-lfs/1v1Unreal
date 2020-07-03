@@ -4,34 +4,29 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "PlayerGun.h"
 #include "Damageable.h"
 #include "FPSCharacter.generated.h"
 
 class UHealthComponent;
-
-//DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerCreated, APawn*);
+class UPlayerGun;
 
 UCLASS()
 class AFPSCharacter : public ACharacter, public IDamageable
 {
 	GENERATED_BODY()
-
-public:
-	// Sets default values for this character's properties
-	AFPSCharacter();
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	virtual void EndPlay(EEndPlayReason::Type EndPlayReason) override;
+
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera)
-	float BaseTurnRate;
+		float BaseTurnRate;
 
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera)
-	float BaseLookUpRate;
+		float BaseLookUpRate;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Player)
 		float SprintMultiplier;
@@ -68,59 +63,59 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		UHealthComponent* HealthComponent;
 
-	UPROPERTY(EditDefaultsOnly)
-		TEnumAsByte<ECollisionChannel> TraceChannel;
-
-	UPROPERTY(EditDefaultsOnly)
-		float TraceDistance = 200;
-
 
 public:	
+	// Sets default values for this character's properties
+	AFPSCharacter();
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	//FOnPlayerCreated OnPlayerCreated;
-
-	void MoveRight(float Value);
-
-	void MoveForward(float Value);
-
-	void TurnAtRate(float Rate);
-
-	void LookUpAtRate(float Rate);
-
-	void FireGun();
-
-	void StopFireGun();
-
-	void Sprint();
-
-	void StopSprint();
+	virtual UHealthComponent* GetHealthComponent() const override { return HealthComponent; }
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UFUNCTION()
+		void MoveRight(float Value);
+
+	UFUNCTION()
+		void MoveForward(float Value);
+
+	UFUNCTION()
+		void TurnAtRate(float Rate);
+
+	UFUNCTION()
+		void LookUpAtRate(float Rate);
+
+	UFUNCTION()
+		void FireGun();
+
+	UFUNCTION()
+		void StopFireGun();
+
+	UFUNCTION()
+		void Sprint();
+
+	UFUNCTION()
+		void StopSprint();
+
+	/*UFUNCTION()
+		void OnDamageReceived(const AActor* DamageCauser);*/
+
+	UFUNCTION()
+		void Die();
+
+	UFUNCTION(BlueprintCallable)
+		void TestDamage(int _damage)
+		{
+			OnTakeDamage(_damage, nullptr);
+		}
 
 	/** Returns FirstPersonCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
 	/** Returns Mesh1P subobject **/
 	FORCEINLINE class USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
-
-	UFUNCTION()
-	void OnDamageReceived(const AActor* DamageCauser);
-
-	UFUNCTION()
-	void Die();
-
-	FTimerHandle RespawnHandler;
-	void CallDestroy();
-	void CallRespawn();
-
-
-	UFUNCTION(BlueprintCallable)
-	void TestDamage(int _damage) {
-		OnTakeDamage(_damage, nullptr);
-	}
-
-	virtual UHealthComponent* GetHealthComponent() const override { return HealthComponent; }
+	
 };

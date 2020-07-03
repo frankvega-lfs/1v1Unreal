@@ -11,8 +11,6 @@ class AFPSTestProjectile : public AActor
 {
 	GENERATED_BODY()
 
-		
-
 	/** Sphere collision component */
 	UPROPERTY(VisibleDefaultsOnly, Category=Projectile)
 	class USphereComponent* CollisionComp;

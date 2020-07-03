@@ -2,12 +2,3 @@
 
 
 #include "EnemyAIController.h"
-
-/*void AEnemyAIController::BeginPlay()
-{
-	Super::BeginPlay();
-	//Blackboard->InitializeBlackboard
-	//Blackboard->InitializeBlackboard(BlackboardAsset);
-	//DamageVolume->OnComponentEndOverlap.AddUniqueDynamic(this, &ThisClass::OnDamageVolumeOverlappedEnd);
-
-}*/

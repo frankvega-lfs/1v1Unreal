@@ -22,9 +22,12 @@ protected:
 public:
 	APlayerStateFPS();
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		int Lives;
 
+	UFUNCTION()
 	void Kill();
-	void SetMaxLives(int amount);
+
+	UFUNCTION()
+	void SetMaxLives(int Amount);
 };

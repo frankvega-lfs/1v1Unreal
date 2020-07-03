@@ -4,6 +4,7 @@
 #include "GameModeF.h"
 #include "GameFramework/GameState.h"
 #include "FPSCharacter.h"
+#include "Door.h"
 #include "kismet/GameplayStatics.h"
 #include "TimerManager.h"
 #include "Engine/World.h"
@@ -13,7 +14,7 @@ void AGameModeF::InitGame(const FString& MapName, const FString& Options, FStrin
 	Super::InitGame(MapName, Options, ErrorMessage);
 
 	DefaultPawnClass = MyDefaultPawnClass;
-	enemiesLeft = enemiesToKill;
+	EnemiesLeft = EnemiesToKill;
 
 	TArray<AActor*> Doors;
 
@@ -44,6 +45,8 @@ void AGameModeF::ReduceLives(APawn* Player)
 	{
 		PlayerState->Kill();
 
+		PlayerController->UnPossess();
+
 		Player->Destroy();
 
 		if (PlayerState->Lives > 0)
@@ -60,7 +63,7 @@ void AGameModeF::ReduceLives(APawn* Player)
 
 			TimerDelegate2.BindUObject(this, &ThisClass::ChangeMap, LossMapName);
 
-			GetWorld()->GetTimerManager().SetTimer(RespawnTimerHandle2, TimerDelegate2, RespawnTime, false);
+			GetWorld()->GetTimerManager().SetTimer(ChangeMapTimerHandle, TimerDelegate2, RespawnTime, false);
 		}
 		
 	}
@@ -72,11 +75,11 @@ void AGameModeF::ReduceLives(APawn* Player)
 
 void AGameModeF::CheckEnemiesKilled()
 {
-	enemiesLeft--;
+	EnemiesLeft--;
 
-	if (enemiesLeft <= 0)
+	if (EnemiesLeft <= 0)
 	{
-		enemiesLeft = 0;
+		EnemiesLeft = 0;
 		if (CurrentDoors.Num() > 0)
 		{
 			for (size_t i = 0; i < CurrentDoors.Num(); i++)

@@ -11,27 +11,25 @@ class UNREAL1V1_API ALevelChangeTrigger : public AActor
 {
 	GENERATED_BODY()
 
-		UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere)
 		class USceneComponent* RootComp;
 
-		UPROPERTY(EditAnywhere)
-		class UBoxComponent* TriggerVolume;
-	
-public:	
-	// Sets default values for this actor's properties
-	ALevelChangeTrigger();
-
 	UPROPERTY(EditAnywhere)
-		FString MapName;
-	
+		class UBoxComponent* TriggerVolume;
 
 protected:
+	UPROPERTY(EditAnywhere)
+		FString MapName;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	virtual void EndPlay(EEndPlayReason::Type EndPlayReason) override;
 
 public:	
+	// Sets default values for this actor's properties
+	ALevelChangeTrigger();
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 

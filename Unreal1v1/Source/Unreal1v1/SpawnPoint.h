@@ -19,14 +19,16 @@ public:
 	TSubclassOf<class ABasicController> EnemyClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-	float SpawnRateTimer;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	float SpawnRate;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	FTimerHandle SpawnHandle;
+	
+	UFUNCTION()
+	void Spawn();
 
 public:	
 	// Called every frame

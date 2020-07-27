@@ -2,7 +2,7 @@
 
 
 #include "SpawnPoint.h"
-#include "BasicController.h"
+#include "BasicCharacter.h"
 #include "Engine/World.h"
 // Sets default values
 ASpawnPoint::ASpawnPoint()
@@ -39,7 +39,7 @@ void ASpawnPoint::Tick(float DeltaTime)
 
 				const FRotator SpawnRotation = this->GetActorRotation();
 				const FVector SpawnLocation = this->GetActorLocation();
-				World->SpawnActor<ABasicController>(EnemyClass, SpawnLocation, SpawnRotation);
+				World->SpawnActor<ABasicCharacter>(EnemyClass, SpawnLocation, SpawnRotation);
 			}
 		}
 

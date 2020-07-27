@@ -16,7 +16,7 @@ public:
 	ASpawnPoint();
 
 	UPROPERTY(EditDefaultsOnly, Category = Enemy)
-	TSubclassOf<class ABasicController> EnemyClass;
+	TSubclassOf<class ABasicCharacter> EnemyClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	float SpawnRateTimer;

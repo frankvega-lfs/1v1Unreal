@@ -26,6 +26,8 @@ protected:
 	virtual void BeginPlay() override;
 
 	FTimerHandle SpawnHandle;
+
+	int SpawnLimit = 15;
 	
 	UFUNCTION()
 	void Spawn();

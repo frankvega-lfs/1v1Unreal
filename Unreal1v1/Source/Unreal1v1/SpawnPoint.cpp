@@ -21,14 +21,23 @@ void ASpawnPoint::BeginPlay()
 
 void ASpawnPoint::Spawn()
 {
-	UWorld* const World = GetWorld();
+	SpawnLimit--;
+	if (SpawnLimit>=0)
+	{
+		UWorld* const World = GetWorld();
 
-	FActorSpawnParameters ActorSpawnParams;
-	ActorSpawnParams.Owner = this;
+		FActorSpawnParameters ActorSpawnParams;
+		ActorSpawnParams.Owner = this;
 
-	const FRotator SpawnRotation = this->GetActorRotation();
-	const FVector SpawnLocation = this->GetActorLocation();
-	World->SpawnActor<ABasicController>(EnemyClass, SpawnLocation, SpawnRotation);
+		const FRotator SpawnRotation = this->GetActorRotation();
+		const FVector SpawnLocation = this->GetActorLocation();
+		World->SpawnActor<ABasicController>(EnemyClass, SpawnLocation, SpawnRotation);
+	}
+	else
+	{
+		GetWorldTimerManager().ClearTimer(SpawnHandle);
+	}
+	
 }
 
 // Called every frame

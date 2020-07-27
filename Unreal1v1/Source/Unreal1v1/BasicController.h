@@ -31,8 +31,11 @@ class ABasicController : public ACharacter, public IDamageable
 	UPROPERTY()
 		TArray<AActor*> ActorsToDamage;
 
+	UPROPERTY()
 	FTimerHandle DamageTimerHandle;
 
+	UFUNCTION()
+		void CallDestroy();
 
 protected:
 	// Called when the game starts or when spawned
@@ -44,8 +47,6 @@ protected:
 
 public:
 	ABasicController();
-
-	//FTimerHandle DestroyHandle;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

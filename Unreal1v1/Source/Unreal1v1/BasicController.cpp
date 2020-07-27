@@ -60,26 +60,29 @@ void ABasicController::Tick(float DeltaTime)
 
 }
 
-/*void ABasicController::OnDamageReceived(const AActor* DamageCauser)
-{
-	//TODO APPLY DAMAGE
-}*/
-
 void ABasicController::OnDead()
 {
 	AGameModeF* GameMode = GetWorld()->GetAuthGameMode<AGameModeF>();
 	GetController()->UnPossess();
+
 	DamageVolume->DestroyComponent();
 	GetCapsuleComponent()->DestroyComponent();
-	this->GetCharacterMovement()->DisableMovement();
-	GameMode->ReduceLives(this);
+	GetCharacterMovement()->DisableMovement();
 	GameMode->CheckEnemiesKilled();
 
 	//Ragdoll Mode (It crashes at random times at the moment)
-
-	//this->GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
-	//this->GetMesh()->SetAllBodiesSimulatePhysics(true);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	GetMesh()->SetAllBodiesSimulatePhysics(true);
+	GetWorldTimerManager().SetTimer(DamageTimerHandle, this, &ABasicController::CallDestroy, 3.0f, false);
 }
+
+
+void ABasicController::CallDestroy()
+{
+	Destroy();
+}
+
+
 
 
 void ABasicController::OnCharacterVolumeOverlapped(UPrimitiveComponent* OverlappedComp, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -164,20 +167,20 @@ void ABasicController::EndPlay(EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
 
-	if (GetCapsuleComponent()->OnComponentBeginOverlap.IsAlreadyBound(this, &ThisClass::OnCharacterVolumeOverlapped))
-	{
-		GetCapsuleComponent()->OnComponentBeginOverlap.RemoveDynamic(this, &ThisClass::OnCharacterVolumeOverlapped);
-	}
+	//if (GetCapsuleComponent()->OnComponentBeginOverlap.IsAlreadyBound(this, &ThisClass::OnCharacterVolumeOverlapped))
+	//{
+	//	GetCapsuleComponent()->OnComponentBeginOverlap.RemoveDynamic(this, &ThisClass::OnCharacterVolumeOverlapped);
+	//}
 
-	if (DamageVolume->OnComponentBeginOverlap.IsAlreadyBound(this, &ThisClass::OnDamageVolumeOverlapped))
-	{
-		DamageVolume->OnComponentBeginOverlap.RemoveDynamic(this, &ThisClass::OnDamageVolumeOverlapped);
-	}
+	//if (DamageVolume->OnComponentBeginOverlap.IsAlreadyBound(this, &ThisClass::OnDamageVolumeOverlapped))
+	//{
+	//	DamageVolume->OnComponentBeginOverlap.RemoveDynamic(this, &ThisClass::OnDamageVolumeOverlapped);
+	//}
 
-	if (DamageVolume->OnComponentEndOverlap.IsAlreadyBound(this, &ThisClass::OnDamageVolumeOverlappedEnd))
-	{
-		DamageVolume->OnComponentEndOverlap.RemoveDynamic(this, &ThisClass::OnDamageVolumeOverlappedEnd);
-	}
+	//if (DamageVolume->OnComponentEndOverlap.IsAlreadyBound(this, &ThisClass::OnDamageVolumeOverlappedEnd))
+	//{
+	//	DamageVolume->OnComponentEndOverlap.RemoveDynamic(this, &ThisClass::OnDamageVolumeOverlappedEnd);
+	//}
 
 	/*if (HealthComponent->OnDamageReceived.IsAlreadyBound(this, &ThisClass::OnDamageReceived))
 	{

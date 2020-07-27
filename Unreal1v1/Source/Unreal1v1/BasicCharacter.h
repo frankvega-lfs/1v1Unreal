@@ -35,11 +35,17 @@ class ABasicCharacter : public ACharacter, public IDamageable
 		TArray<AActor*> ActorsToDamage;
 
 	UPROPERTY()
+<<<<<<< HEAD:Unreal1v1/Source/Unreal1v1/BasicCharacter.h
 		FTimerHandle DamageTimerHandle;
 
 	UFUNCTION()
 		void CallDestroy();
+=======
+	FTimerHandle DamageTimerHandle;
+>>>>>>> 888cb2d02ba5fc7dce73d6953e8ff37e75ba6373:Unreal1v1/Source/Unreal1v1/BasicController.h
 
+	UFUNCTION()
+		void CallDestroy();
 
 protected:
 	// Called when the game starts or when spawned
@@ -52,7 +58,12 @@ protected:
 public:
 	ABasicCharacter();
 
+<<<<<<< HEAD:Unreal1v1/Source/Unreal1v1/BasicCharacter.h
 	//FTimerHandle DestroyHandle;
+=======
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+>>>>>>> 888cb2d02ba5fc7dce73d6953e8ff37e75ba6373:Unreal1v1/Source/Unreal1v1/BasicController.h
 
 	virtual void EndPlay(EEndPlayReason::Type EndPlayReason) override;
 

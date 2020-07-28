@@ -5,8 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/Actor.h"
-#include "Damageable.h"
-#include "Interactable.h"
+#include "Interfaces/Damageable.h"
+#include "Interfaces/Interactable.h"
 #include "BasicCharacter.generated.h"
 
 class UHealthComponent;

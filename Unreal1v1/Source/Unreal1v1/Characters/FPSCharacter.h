@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Damageable.h"
+#include "Interfaces/Damageable.h"
 #include "FPSCharacter.generated.h"
 
 class UHealthComponent;

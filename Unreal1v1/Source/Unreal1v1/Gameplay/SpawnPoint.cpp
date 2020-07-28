@@ -2,7 +2,7 @@
 
 
 #include "SpawnPoint.h"
-#include "BasicCharacter.h"
+#include "Characters/BasicCharacter.h"
 #include "TimerManager.h"
 #include "Engine/World.h"
 // Sets default values

@@ -2,13 +2,13 @@
 
 #include "BasicCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameModeF.h"
+#include "GameFrameworkClasses/GameModeF.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/BoxComponent.h"
-#include "HealthComponent.h"
+#include "Interfaces/HealthComponent.h"
 #include "TimerManager.h"
 #include "FPSCharacter.h"
-#include "FPSTestProjectile.h"
+#include "Weapons/FPSTestProjectile.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AImageCampusProjectCharacter

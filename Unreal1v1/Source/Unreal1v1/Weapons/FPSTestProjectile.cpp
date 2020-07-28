@@ -2,7 +2,7 @@
 
 #include "FPSTestProjectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
-#include "BasicCharacter.h"
+#include "Characters/BasicCharacter.h"
 #include "Components/SphereComponent.h"
 
 AFPSTestProjectile::AFPSTestProjectile() 

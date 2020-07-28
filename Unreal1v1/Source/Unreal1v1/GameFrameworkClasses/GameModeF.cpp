@@ -3,8 +3,8 @@
 
 #include "GameModeF.h"
 #include "GameFramework/GameState.h"
-#include "FPSCharacter.h"
-#include "Door.h"
+#include "Characters/FPSCharacter.h"
+#include "Gameplay/Door.h"
 #include "kismet/GameplayStatics.h"
 #include "TimerManager.h"
 #include "Engine/World.h"

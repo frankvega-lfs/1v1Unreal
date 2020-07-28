@@ -3,8 +3,8 @@
 
 #include "LevelChangeTrigger.h"
 #include "Components/BoxComponent.h"
-#include "FPSCharacter.h"
-#include "GameModeF.h"
+#include "Characters/FPSCharacter.h"
+#include "GameFrameworkClasses/GameModeF.h"
 
 // Sets default values
 ALevelChangeTrigger::ALevelChangeTrigger()

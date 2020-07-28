@@ -7,10 +7,10 @@
 #include "GameFramework/InputSettings.h"
 #include "Components/CapsuleComponent.h"
 #include "Camera/CameraComponent.h"
-#include "HealthComponent.h"
-#include "PlayerGun.h"
-#include "GameModeF.h"
-#include "Interactable.h"
+#include "Interfaces/HealthComponent.h"
+#include "Weapons/PlayerGun.h"
+#include "GameFrameworkClasses/GameModeF.h"
+#include "Interfaces/Interactable.h"
 #include "Kismet/GameplayStatics.h"
 
 

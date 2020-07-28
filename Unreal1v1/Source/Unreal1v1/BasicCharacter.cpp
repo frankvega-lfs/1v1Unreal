@@ -56,23 +56,21 @@ void ABasicCharacter::BeginPlay()
 
 }
 
-<<<<<<< HEAD:Unreal1v1/Source/Unreal1v1/BasicCharacter.cpp
+
 /*void ABasicCharacter::OnDamageReceived(const AActor* DamageCauser)
 {
 	//TODO APPLY DAMAGE
 }*/
 
-void ABasicCharacter::OnDead()
-=======
+
 // Called every frame
-void ABasicController::Tick(float DeltaTime)
+void ABasicCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-void ABasicController::OnDead()
->>>>>>> 888cb2d02ba5fc7dce73d6953e8ff37e75ba6373:Unreal1v1/Source/Unreal1v1/BasicController.cpp
+void ABasicCharacter::OnDead()
 {
 	AGameModeF* GameMode = GetWorld()->GetAuthGameMode<AGameModeF>();
 	GetController()->UnPossess();
@@ -82,32 +80,17 @@ void ABasicController::OnDead()
 	GetCharacterMovement()->DisableMovement();
 	GameMode->CheckEnemiesKilled();
 
-	//Ragdoll Mode (It crashes at random times at the moment)
+	//Ragdoll Mode
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 	GetMesh()->SetAllBodiesSimulatePhysics(true);
-<<<<<<< HEAD:Unreal1v1/Source/Unreal1v1/BasicCharacter.cpp
 	GetWorldTimerManager().SetTimer(DamageTimerHandle, this, &ABasicCharacter::CallDestroy, 3.0f, false);
 }
 
 void ABasicCharacter::CallDestroy()
-=======
-	GetWorldTimerManager().SetTimer(DamageTimerHandle, this, &ABasicController::CallDestroy, 3.0f, false);
-}
-
-
-void ABasicController::CallDestroy()
 {
 	Destroy();
 }
 
-
-
-
-void ABasicController::OnCharacterVolumeOverlapped(UPrimitiveComponent* OverlappedComp, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
->>>>>>> 888cb2d02ba5fc7dce73d6953e8ff37e75ba6373:Unreal1v1/Source/Unreal1v1/BasicController.cpp
-{
-	Destroy();
-}
 
 void ABasicCharacter::OnDamageVolumeOverlapped(UPrimitiveComponent* OverlappedComp, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
@@ -115,6 +98,11 @@ void ABasicCharacter::OnDamageVolumeOverlapped(UPrimitiveComponent* OverlappedCo
 		return;
 
 	GetWorld()->GetTimerManager().SetTimer(DamageTimerHandle, this, &ThisClass::DamageTick, DamageInterval, true);
+
+	ABasicCharacter* Character = Cast<ABasicCharacter>(Other->GetOwner());
+
+	if (Character != nullptr)
+		return;
 
 	IDamageable* Damageable = Cast<IDamageable>(Other);
 
@@ -130,6 +118,11 @@ void ABasicCharacter::OnDamageVolumeOverlapped(UPrimitiveComponent* OverlappedCo
 void ABasicCharacter::OnDamageVolumeOverlappedEnd(UPrimitiveComponent* OverlappedComp, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	if (Other == nullptr)
+		return;
+
+	ABasicCharacter* Character = Cast<ABasicCharacter>(Other->GetOwner());
+
+	if (Character != nullptr)
 		return;
 
 	ActorsToDamage.Remove(Other);
@@ -173,8 +166,6 @@ void ABasicCharacter::EndPlay(EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
 
-<<<<<<< HEAD:Unreal1v1/Source/Unreal1v1/BasicCharacter.cpp
-=======
 	//if (GetCapsuleComponent()->OnComponentBeginOverlap.IsAlreadyBound(this, &ThisClass::OnCharacterVolumeOverlapped))
 	//{
 	//	GetCapsuleComponent()->OnComponentBeginOverlap.RemoveDynamic(this, &ThisClass::OnCharacterVolumeOverlapped);
@@ -195,7 +186,6 @@ void ABasicCharacter::EndPlay(EEndPlayReason::Type EndPlayReason)
 		HealthComponent->OnDamageReceived.RemoveDynamic(this, &ThisClass::OnDamageReceived);
 	}*/
 
->>>>>>> 888cb2d02ba5fc7dce73d6953e8ff37e75ba6373:Unreal1v1/Source/Unreal1v1/BasicController.cpp
 	if (HealthComponent->OnDead.IsAlreadyBound(this, &ThisClass::OnDead))
 	{
 		HealthComponent->OnDead.RemoveDynamic(this, &ThisClass::OnDead);

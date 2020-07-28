@@ -3,13 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/SceneComponent.h"
+#include "Components/ActorComponent.h"
 #include "FPSTestProjectile.h"
 #include "PlayerGun.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class UPlayerGun : public USceneComponent
+class UPlayerGun : public UActorComponent
 {
 	GENERATED_BODY()
 public:	

@@ -27,6 +27,7 @@ protected:
 
 	FTimerHandle SpawnHandle;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	int SpawnLimit = 15;
 	
 	UFUNCTION()

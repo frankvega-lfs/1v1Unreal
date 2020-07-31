@@ -45,7 +45,7 @@ protected:
 		class UCameraComponent* FirstPersonCameraComponent;
 
 	/** Pawn mesh: 1st person view (arms; seen only by self) */
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
 		class USkeletalMeshComponent* Mesh1P;
 
 	/** Gun mesh: 1st person view (seen only by self) */
@@ -62,6 +62,15 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		UHealthComponent* HealthComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		bool bIsMovingRight;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		bool bIsMovingForward;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		bool bIsSprinting;
 
 
 public:	
@@ -102,6 +111,24 @@ public:
 
 	/*UFUNCTION()
 		void OnDamageReceived(const AActor* DamageCauser);*/
+
+	UFUNCTION(BlueprintCallable)
+		bool IsPlayerMovingForward()
+	{
+		return bIsMovingForward;
+	}
+
+	UFUNCTION(BlueprintCallable)
+		bool IsPlayerMovingRight()
+	{
+		return bIsMovingRight;
+	}
+
+	UFUNCTION(BlueprintCallable)
+		bool IsPlayerSprinting()
+	{
+		return bIsSprinting;
+	}
 
 	UFUNCTION()
 		void Die();

@@ -110,6 +110,11 @@ void AFPSCharacter::MoveForward(float Value)
 	{
 		// add movement in that direction
 		AddMovementInput(GetActorForwardVector(), Value);
+		bIsMovingForward = true;
+	}
+	else
+	{
+		bIsMovingForward = false;
 	}
 }
 
@@ -119,6 +124,11 @@ void AFPSCharacter::MoveRight(float Value)
 	{
 		// add movement in that direction
 		AddMovementInput(GetActorRightVector(), Value);
+		bIsMovingRight = true;
+	}
+	else
+	{
+		bIsMovingRight = false;
 	}
 }
 
@@ -155,6 +165,8 @@ void AFPSCharacter::Sprint()
 	WalkSpeed = OriginalWalkSpeed * SprintMultiplier;
 
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+
+	bIsSprinting = true;
 }
 
 void AFPSCharacter::StopSprint()
@@ -162,6 +174,8 @@ void AFPSCharacter::StopSprint()
 	WalkSpeed = OriginalWalkSpeed;
 
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+
+	bIsSprinting = false;
 }
 
 /*void AFPSCharacter::OnDamageReceived(const AActor* DamageCauser)

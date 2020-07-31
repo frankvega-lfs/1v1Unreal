@@ -14,6 +14,11 @@ UHealthComponent::UHealthComponent()
 	Health = MaxHealth;
 }
 
+float UHealthComponent::GetCurrentHealth()
+{
+	return Health;
+}
+
 void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -30,6 +35,7 @@ void UHealthComponent::ApplyDamage(float Damage, const AActor* DamageCauser)
 	Health -= Damage;
 
 	OnDamageReceived.Broadcast(DamageCauser);
+	OnHurt.Broadcast();
 
 	if (Health <= 0)
 	{	

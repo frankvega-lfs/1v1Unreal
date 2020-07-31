@@ -19,6 +19,8 @@ class ABasicCharacter : public ACharacter, public IDamageable
 	UPROPERTY(EditAnywhere)
 	class USceneComponent* RootComp;
 
+	
+
 	UPROPERTY(EditAnywhere)
 		UHealthComponent* HealthComponent;
 
@@ -41,6 +43,12 @@ class ABasicCharacter : public ACharacter, public IDamageable
 		void CallDestroy();
 
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		class USoundBase* HurtSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		class USoundBase* DeathSound;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -57,6 +65,9 @@ public:
 	virtual void EndPlay(EEndPlayReason::Type EndPlayReason) override;
 
 	virtual UHealthComponent* GetHealthComponent() const override { return HealthComponent; }
+
+	UFUNCTION()
+		void OnHurt();
 
 	UFUNCTION()
 		void OnDead();

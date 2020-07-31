@@ -9,6 +9,7 @@
 #include "TimerManager.h"
 #include "FPSCharacter.h"
 #include "Weapons/FPSTestProjectile.h"
+#include "Kismet/GameplayStatics.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AImageCampusProjectCharacter
@@ -53,7 +54,7 @@ void ABasicCharacter::BeginPlay()
 	DamageVolume->OnComponentEndOverlap.AddUniqueDynamic(this, &ThisClass::OnDamageVolumeOverlappedEnd);
 	//HealthComponent->OnDamageReceived.AddDynamic(this, &ThisClass::OnDamageReceived);
 	HealthComponent->OnDead.AddDynamic(this, &ThisClass::OnDead);
-
+	HealthComponent->OnHurt.AddDynamic(this, &ThisClass::OnHurt);
 }
 
 
@@ -70,6 +71,18 @@ void ABasicCharacter::Tick(float DeltaTime)
 
 }
 
+void ABasicCharacter::OnHurt()
+{
+	if (HealthComponent->GetCurrentHealth() > 0)
+	{
+		// try and play the sound if specified
+		if (HurtSound != NULL)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, HurtSound, GetActorLocation());
+		}
+	}
+}
+
 void ABasicCharacter::OnDead()
 {
 	AGameModeF* GameMode = GetWorld()->GetAuthGameMode<AGameModeF>();
@@ -84,6 +97,12 @@ void ABasicCharacter::OnDead()
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 	GetMesh()->SetAllBodiesSimulatePhysics(true);
 	GetWorldTimerManager().SetTimer(DamageTimerHandle, this, &ABasicCharacter::CallDestroy, 3.0f, false);
+
+	// try and play the sound if specified
+	if (DeathSound != NULL)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation());
+	}
 }
 
 void ABasicCharacter::CallDestroy()
@@ -186,9 +205,16 @@ void ABasicCharacter::EndPlay(EEndPlayReason::Type EndPlayReason)
 		HealthComponent->OnDamageReceived.RemoveDynamic(this, &ThisClass::OnDamageReceived);
 	}*/
 
+	if (HealthComponent->OnHurt.IsAlreadyBound(this, &ThisClass::OnHurt))
+	{
+		HealthComponent->OnHurt.RemoveDynamic(this, &ThisClass::OnHurt);
+	}
+
 	if (HealthComponent->OnDead.IsAlreadyBound(this, &ThisClass::OnDead))
 	{
 		HealthComponent->OnDead.RemoveDynamic(this, &ThisClass::OnDead);
 	}
+
+	
 
 }

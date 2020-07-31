@@ -7,6 +7,7 @@
 #include "HealthComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDamageReceived, const AActor*, DamageCauser);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnHurt);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDead);
 
 
@@ -26,6 +27,12 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 		FOnDead OnDead;
+
+	UPROPERTY(BlueprintAssignable)
+		FOnDead OnHurt;
+
+	UFUNCTION()
+		float GetCurrentHealth();
 
 protected:
 	// Called when the game starts

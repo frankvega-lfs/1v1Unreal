@@ -78,13 +78,47 @@ void ABasicCharacter::OnHurt()
 		// try and play the sound if specified
 		if (HurtSound != NULL)
 		{
-			UGameplayStatics::PlaySoundAtLocation(this, HurtSound, GetActorLocation());
+			USoundConcurrency* ConcurrencySettings = (USoundConcurrency*)nullptr;
+
+			UGameplayStatics::PlaySoundAtLocation
+			(
+				this,
+				HurtSound,
+				GetActorLocation(),
+				1.0f,
+				1.0f,
+				0.0f,
+				Attenuation,
+				ConcurrencySettings
+			);
+
+			//UGameplayStatics::PlaySoundAtLocation(this, HurtSound, GetActorLocation(), Attenuation);
 		}
 	}
 }
 
 void ABasicCharacter::OnDead()
 {
+	// try and play the sound if specified
+	if (DeathSound != NULL)
+	{
+		USoundConcurrency* ConcurrencySettings2 = (USoundConcurrency*)nullptr;
+
+		UGameplayStatics::PlaySoundAtLocation
+		(
+			this,
+			DeathSound,
+			GetActorLocation(),
+			1.0f,
+			1.0f,
+			0.0f,
+			Attenuation,
+			ConcurrencySettings2
+		);
+
+		//UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(), Attenuation);
+	}
+
 	AGameModeF* GameMode = GetWorld()->GetAuthGameMode<AGameModeF>();
 	GetController()->UnPossess();
 
@@ -97,12 +131,6 @@ void ABasicCharacter::OnDead()
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 	GetMesh()->SetAllBodiesSimulatePhysics(true);
 	GetWorldTimerManager().SetTimer(DamageTimerHandle, this, &ABasicCharacter::CallDestroy, 3.0f, false);
-
-	// try and play the sound if specified
-	if (DeathSound != NULL)
-	{
-		UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation());
-	}
 }
 
 void ABasicCharacter::CallDestroy()

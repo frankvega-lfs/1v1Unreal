@@ -19,8 +19,6 @@ class ABasicCharacter : public ACharacter, public IDamageable
 	UPROPERTY(EditAnywhere)
 	class USceneComponent* RootComp;
 
-	
-
 	UPROPERTY(EditAnywhere)
 		UHealthComponent* HealthComponent;
 
@@ -43,6 +41,9 @@ class ABasicCharacter : public ACharacter, public IDamageable
 		void CallDestroy();
 
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		USoundAttenuation* Attenuation;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		class USoundBase* HurtSound;
 
